@@ -1,0 +1,6 @@
+{
+  "User": {
+    "GetLastLocations": "GetLastLocations",
+    "GetBrowsedRoute" : "GetBrowsedRoute"
+  }
+}
