@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import Image from "../fakePostImages/unavailable.png";
+import Image from "../images/unavailable.png";
 import { withStyles } from "@material-ui/core/styles";
 
 delete L.Icon.Default.prototype._getIconUrl;
