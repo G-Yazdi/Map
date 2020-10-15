@@ -7,10 +7,9 @@ class LeafletPolyLineMarker extends Component {
     }
     render() {
         const {data} = this.props;
-        console.log("data", data)
         const length = data.length;
         return <Map 
-                center={[data[length/2].latitude, data[length/2].longitude]} zoom={15}
+                center={[data[length - 1].latitude, data[length - 1].longitude]} zoom={15}
                 style={{
                     position: "absolute",
                     top: "65px",

@@ -9,7 +9,7 @@ const NavBar = () => {
       <AppBar>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Blogs
+            GPS Report
           </Typography>
         </Toolbar>
       </AppBar>
