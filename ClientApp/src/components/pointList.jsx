@@ -24,26 +24,27 @@ class PointList extends Component {
   };
 
   componentDidMount() {
+      
+        userService.getLastLocations().then(response => {
+            const points = response.data;
 
-       userService.getLastLocations().then(response => {
-               const points = response.data;
+            if (points !== null) {
+                this.setState({ points, isLoading: false });
+            } else {
+                this.setState({ isLoading: true });
+            }
+        })
+        .catch(error => {
+            console.log("error", error);
+        });
 
-               if (points !== null) {
-                   this.setState({ points, isLoading: false });
-               } else {
-                   this.setState({ isLoading: true });
-               }
-           })
-           .catch(error => {
-               console.log("error", error);
-           });
+       
   }
-
   handleBrowsRoute = (point) => {
     if(point.locationTime !==null){
         userService.getBrowsedRoute(point.deviceId, point.locationTime).then(response => {
             const polyLineData = response.data;
-            this.setState({ polyLineData, singleMode: true, point, polyLineMode: false });
+            this.setState({ polyLineData, singleMode: true, point, polyLineMode: false});
         })
         .catch(error => {
             console.log("error", error);
@@ -55,7 +56,7 @@ handleDisplayTraveledDistance = (point) => {
         if(point.locationTime !==null){
             userService.getBrowsedRoute(point.deviceId, point.locationTime).then(response => {
                 const polyLineData = response.data;
-                this.setState({ polyLineData, singleMode: true, point, polyLineMode: true });
+                this.setState({ polyLineData, singleMode: true, point, polyLineMode: true});
             })
             .catch(error => {
                 console.log("error", error);
@@ -63,10 +64,9 @@ handleDisplayTraveledDistance = (point) => {
         }
     }
   handleBackToList = () => {
-    this.setState({ point: null, singleMode: false });
+          this.setState({ point: null, singleMode: false, polyLineData: [],  polyLineMode: false, isMounted: false});
   };
   render() {
-      console.log("polyData:", this.state.polyLineData)
       const { classes } = this.props;
       if (!this.state.isLoading) {
           if (this.state.singleMode === false) {

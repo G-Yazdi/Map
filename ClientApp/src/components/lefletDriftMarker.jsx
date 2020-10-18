@@ -3,29 +3,30 @@ import { Map, TileLayer} from 'react-leaflet';
 import { DriftMarker } from "leaflet-drift-marker";
  
 class LeafletDriftMarker extends Component {
-    _isMounted = false;
     index = 0;
-    constructor(props) {
-        super(props)
-    }
+    _isMounted = false;
     state = {
         latlng: this.get_position()
       };
  
       componentDidMount() {
-        this.repeat();
+        this._isMounted = true;
+          this.repeat();
+          
       }
-    
+      componentWillUnmount() {
+        this._isMounted = false;
+      }
       repeat = () => {
-          console.log("length", this.props.data.length);
-          console.log("index", this.index);
-
           this.index++;
+          
           if(this.index < this.props.data.length){
             setTimeout(() => {
-                // updates position every 5 sec
+              if(this._isMounted){
+
                 this.setState({ latlng: this.get_position() }, this.repeat);
-              }, 2000);
+              }
+              }, 3000);
           }
         
       };
@@ -49,7 +50,7 @@ class LeafletDriftMarker extends Component {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
          
-        <DriftMarker
+        <DriftMarker key={this.index}
             // if position changes, marker will drift its way to new position
             position={this.state.latlng}
             // time in ms that marker will take to reach its destination

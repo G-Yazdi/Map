@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Map, TileLayer, Polyline, Marker} from 'react-leaflet';
 
 class LeafletPolyLineMarker extends Component {
-    constructor(props) {
-        super(props)
-    }
+   
     render() {
         const {data} = this.props;
         const length = data.length;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, TileLayer, Marker, Polyline } from 'react-leaflet';
+import { Map, TileLayer, Marker} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import Image from "../images/unavailable.png";
@@ -30,13 +30,9 @@ const useStyles = (theme) => ({
   });
 
   class LeafLetMap extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         const {longitude, latitude, singleMode, classes} = this.props;
-        console.log("leafletmap");
         if(longitude && latitude){
             return (
                 <Map 
@@ -63,7 +59,7 @@ const useStyles = (theme) => ({
             );
         }
         else{
-            return <img src={Image} style={{height: '200px', width:"300px"}}/>;
+            return <img src={Image} alt="unavailable" style={{height: '200px', width:"300px"}}/>;
         }
             
 

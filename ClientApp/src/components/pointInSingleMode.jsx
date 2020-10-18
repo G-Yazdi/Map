@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -8,6 +7,8 @@ import LeafLetMap from "./leafletMap";
 import Grid from "@material-ui/core/Grid";
 import LeafletDriftMarker from "./lefletDriftMarker";
 import LeafletPolyLineMarker from "./leafletPolyLineMarker";
+
+
 
 
 const StyledButton = withStyles({
@@ -21,23 +22,8 @@ const StyledButton = withStyles({
   },
 })(Button);
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    maxWidth: "100%",
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    height: "100%",
-  },
-  media: {
-    paddingTop: "0.25%", // 16:9
-  },
-}));
 const PostInSingleMode = (props) => {
-  const classes = useStyles();
   const { point, onClickBackToList, polyLineData, polyLineMode } = props;
-  console.log("dataaa:", polyLineData);
   let str = point.locationTime;
   let formatedDate = Moment(str).fromNow();
   const fullName = point.deviceNickname !=="N/A" ? point.deviceNickname : "نامشخص";
