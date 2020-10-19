@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PostInMultipleMode = (props) => {
+const PointInMultipleMode = (props) => {
   const classes = useStyles();
   const { point, onClickBrowsRoute, onClickDisplayTraveledDistance} = props;
   let str = point.locationTime;
@@ -81,4 +81,4 @@ const PostInMultipleMode = (props) => {
   );
 };
 
-export default PostInMultipleMode;
+export default PointInMultipleMode;

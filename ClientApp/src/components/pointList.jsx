@@ -3,8 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/core/styles";
 import userService from "../services/userService";
-import PointInSingleMode from "./pointInSingleMode";
 import PointInMultipleMode from "./pointInMultipleMode";
+import NavBar from "./navBar";
 
 const useStyles = (theme) => ({
   cardGrid: {
@@ -41,36 +41,25 @@ class PointList extends Component {
        
   }
   handleBrowsRoute = (point) => {
-    if(point.locationTime !==null){
-        userService.getBrowsedRoute(point.deviceId, point.locationTime).then(response => {
-            const polyLineData = response.data;
-            this.setState({ polyLineData, singleMode: true, point, polyLineMode: false});
-        })
-        .catch(error => {
-            console.log("error", error);
-        });
-    }
-}
-    
-handleDisplayTraveledDistance = (point) => {
         if(point.locationTime !==null){
-            userService.getBrowsedRoute(point.deviceId, point.locationTime).then(response => {
-                const polyLineData = response.data;
-                this.setState({ polyLineData, singleMode: true, point, polyLineMode: true});
-            })
-            .catch(error => {
-                console.log("error", error);
-            });
+            this.props.history.push(`/pointList/${point.deviceId}/browsedRoute`)
+        }
+    }
+    
+    handleDisplayTraveledDistance = (point) => {
+        if(point.locationTime !==null){
+            this.props.history.push(`/pointList/${point.deviceId}/traveledDistance`)
         }
     }
   handleBackToList = () => {
-          this.setState({ point: null, singleMode: false, polyLineData: [],  polyLineMode: false, isMounted: false});
+        this.setState({ point: null, singleMode: false, polyLineData: [],  polyLineMode: false, isMounted: false});
   };
   render() {
       const { classes } = this.props;
       if (!this.state.isLoading) {
-          if (this.state.singleMode === false) {
               return (
+                <React.Fragment>
+                <NavBar />
                   <Container className={classes.cardGrid} maxWidth="md">
                       <Grid container spacing={4}>
                           {this.state.points.map((point) => (
@@ -84,20 +73,12 @@ handleDisplayTraveledDistance = (point) => {
                           ))}
                       </Grid>
                   </Container>
+                  </React.Fragment>
               );
-          } else {
-              return (
-                      <PointInSingleMode
-                          point={this.state.point}
-                          polyLineData={this.state.polyLineData}
-                          polyLineMode={this.state.polyLineMode}
-                          onClickBackToList={this.handleBackToList}
-                      />
-              );
-          }
       } else {
           return (
               <React.Fragment>
+                  <NavBar />
                   <div
                       className="alert text-center  mt-5 rtl"
                       role="alert"

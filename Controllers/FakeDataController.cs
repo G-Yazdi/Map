@@ -35,9 +35,9 @@ namespace SampleReactApp.Controllers
             return desiredResult;
         }
 
-        [Route("GetBrowsedRoute")]
+        [Route("GetDeviceBrowsedPoints")]
         [HttpGet]
-        public async Task<List<GeographicalPoint>> GetBrowsedRoute(int deviceId, DateTime locationTime)
+        public async Task<DeviceBrowsedPoints> GetBrowsedRoute(int deviceId, DateTime locationTime)
         {
             _caller = new ApiCaller();
             _configuration = new WebApiConfiguration();
@@ -45,11 +45,14 @@ namespace SampleReactApp.Controllers
 
             var startOfDay = locationTime.Date;
             var endOfDay = locationTime.Date.AddDays(1).AddTicks(-1);
+            var deviceInfo = await _mapService.DeviceService.GetAsync(deviceId);
             var browsedRoute =
                 await _mapService.ReportService.BrowseRoute(deviceId, startOfDay, endOfDay);
 
 
-            return browsedRoute?.Select(r=>new GeographicalPoint(r.Location.Longitude, r.Location.Latitude)).ToList();
+            return new DeviceBrowsedPoints(
+                browsedRoute?.Select(r => new GeographicalPoint(r.Location.Longitude, r.Location.Latitude)).ToList(),
+                new DeviceInfo(deviceInfo.ID, deviceInfo.IMEI, deviceInfo.Nickname));
         }
     }
 }
