@@ -25,7 +25,7 @@ class LeafletPolyLineMarker extends Component {
  
     async componentDidMount() {
         const date = new Date();
-        const time = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + (date.getUTCDate());
+        const time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getUTCDate());
         await userService.getBrowsedRoute(this.props.match.params.deviceId, time).then(response => {
             const data = response.data;
           if (data !== null && data.browsedPoints.length > 0) {

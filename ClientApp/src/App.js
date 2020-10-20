@@ -13,8 +13,8 @@ function App() {
   const data = [{latitude:"10", longitude:"10"}]
   return <React.Fragment>
   <Switch>
-    <Route path="/pointList/:deviceId/browsedRoute/:date?" exact component={LeafletDriftMarker}/>
-    <Route path="/pointList/:deviceId/traveledDistance/:date?" exact component={LeafletPolyLineMarker}/>
+    <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>
+    <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={LeafletPolyLineMarker}/>
     <Route path="/pointList" exact component={PointList}/>
     <Route path="/notFound"  component={NotFound}/>
     <Redirect from="/" exact  to="/pointList"/>

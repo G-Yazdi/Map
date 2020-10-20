@@ -80,16 +80,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SearchNavBar(props) {
-  const [value, setValue] = React.useState()
   const classes = useStyles();
   
+  const onDataChange = (event)=> {
+    console.log("Changed", props)
+    props.onChange(event);
+}
+
 
   return (
     <div className={classes.grow}>
+      {console.log("propsrender", props)}
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             Tracking
+
           </Typography>
           <div className={classes.search}>
             <InputBase
@@ -99,12 +105,11 @@ export default function SearchNavBar(props) {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
+              value={props.date || ''}
               inputProps={{ 'aria-label': 'تاریخ' }}
-              onChange={event=>{ 
-                setValue(event.target.value)
-              }}
+              onChange={(event)=>onDataChange(event)}
             />
-            <IconButton className={classes.iconButton} aria-label="search" onClick={()=>props.onClickSearch(value)}>
+            <IconButton className={classes.iconButton} aria-label="search" onClick={()=>props.onClickSearch()}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>

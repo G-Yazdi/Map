@@ -6,7 +6,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import SearchNavBar from "./searchNavBar";
-import { ColorLensOutlined } from '@material-ui/icons';
 const StyledButton = withStyles({
   root: {
     background: "linear-gradient(45deg, #846bfe, #846bfe)",
@@ -21,33 +20,32 @@ const StyledButton = withStyles({
 class LeafletDriftMarker extends Component {
     index = 0;
     _isMounted = false;
-    state = {
-      isLoading: true,
-        points: [],
-        deviceInfo:"", 
-        latlng: null,
-        date:null
-      };
+    constructor(props) {
+      super(props);
+      this.state = {
+        isLoading: true,
+          points: '',
+          deviceInfo:'', 
+          latlng: '',
+          date:''
+        };
+    }
+    
  
     async componentDidMount() {
-      console.log("yes")
       this._isMounted = true;
-      let time = null;
-      if(this.props.match.params.date === null || this.props.match.params.date === undefined){
-        const date = new Date();
-        time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getUTCDate());
-        
-      }
-      else{
-        time = this.props.match.params.date;
-        console.log("time:", time)
-      }
-      this.setState({date: time});
-      await userService.getBrowsedRoute(this.props.match.params.deviceId, time).then(response => {
+      const {date, deviceId} = this.props.match.params;
+      this.setState({date});
+      await userService.getBrowsedRoute(deviceId, date).then(response => {
           const data = response.data;
-          if (data !== null && data.browsedPoints.length > 0 && this._isMounted) {
-            this.setState({ points: data.browsedPoints});
+          if (data !== null && data.deviceInfo !== null) {
             this.setState({ deviceInfo: data.deviceInfo});
+          }
+          else{
+            this.props.history.push(`/notFound`);
+          }
+          if(data.browsedPoints !== null && data.browsedPoints.length > 0 && this._isMounted){
+            this.setState({ points: data.browsedPoints});
             this.setState(() => ({ latlng: this.get_position()}));
             this.setState({ isLoading:false});
           }
@@ -57,70 +55,92 @@ class LeafletDriftMarker extends Component {
       })
       .catch(error => {
           console.log("error", error);
+          this.props.history.push(`/notFound`);
       });
-          this.repeat();
-          
+      
+      if(this.state.points !==''){
+        this.repeat();
       }
+          
+    }
 
      async componentDidUpdate(prevProps) {
-      console.log("yes1")
-        if(this.props.match.params.date !== prevProps.match.params.date && this.state.date !==this.props.match.params.date) {
-          this.setState({ isLoading:true});
-          console.log("yes11")
-          this._isMounted = true;
-        const time = this.props.match.params.date;
-        console.log("time:", time)
-        this.setState({date: time});
-      await userService.getBrowsedRoute(this.props.match.params.deviceId, time).then(response => {
-          const data = response.data;
-          if (data !== null && data.browsedPoints.length > 0 && this._isMounted) {
-            this.setState({ points: data.browsedPoints});
-            this.setState({ deviceInfo: data.deviceInfo});
-            this.setState(() => ({ latlng: this.get_position()}));
-            this.setState({ isLoading:false});
+        if(this.props.match.params.date !== prevProps.match.params.date) {
+          this._isMounted = false;
+          this.index = 0;
+          const {date, deviceId} = this.props.match.params;
+          this.setState({isLoading:true})
+          await userService.getBrowsedRoute(deviceId, date).then(response => {
+            this.setState({date})
+              const data = response.data;
+              
+              if (data !== null && data.deviceInfo !==null) {
+                this.setState({ deviceInfo: data.deviceInfo});
+              }
+              else{
+                this.props.history.push(`/notFound`);
+              }
+              if(data.browsedPoints !== null && data.browsedPoints.length > 0){
+                this._isMounted = true;
+                this.setState({ points: data.browsedPoints});
+                this.setState(() => ({ latlng: this.get_position()}));
+                this.setState({ isLoading:false});
+              }
+              else{
+                this.setState({points:''});
+              }
+          })
+          .catch(error => {
+              console.log("error", error);
+              this.props.history.push(`/notFound`);
+          });
+          if(this.state.points !==''){
+            this.repeat();
           }
-          else{
-            this.setState({ isLoading:true});
-          }
-      })
-      .catch(error => {
-          console.log("error", error);
-      });
-          this.repeat();
           
         }
       }
       componentWillUnmount() {
+        console.log("componentWillUnmount")
         this._isMounted = false;
       }
       repeat = () => {
-          this.index++;
+
           
-          if(this.index < this.state.points.length){
+          console.log("repeat")
+          
+          if(this.index < this.state.points.length-1){
+            this.index++;
             setTimeout(() => {
               if(this._isMounted){
                 this.setState({ latlng: this.get_position() }, this.repeat);
               }
-            }, 2000);
+            }, 1000);
           }
         
       };
     
-      get_position() {
-        return {
-          lat: this.state.points[this.index].latitude,
-          lng: this.state.points[this.index].longitude
-        };
+      get_position = () =>{
+        if(this._isMounted){
+          return {
+            lat: this.state.points[this.index].latitude,
+            lng: this.state.points[this.index].longitude
+          };
+        }
       }
       handleBackToList = () => {
         this.props.history.push("/");
       };
-      handleSearch = (value) => {
-        console.log("clicked")
-        if(value !==undefined){
-          this.props.history.push(`/pointList/${this.state.deviceInfo.id}/browsedRoute/${value}`);
-        }
-        
+      handleSearch = () => {
+        this._isMounted = false;
+        this.setState({isLoading:true})
+        this.props.history.push(`/pointList/${this.state.deviceInfo.id}/browsedRoute/${this.state.date}`);
+      };
+
+      handleChange = (event) => {
+        let state = [...this.state.date];
+        state = event.target.value;
+        this.setState({date: state});
       };
     render() {
       
@@ -129,7 +149,7 @@ class LeafletDriftMarker extends Component {
         const title = "IMEI:" + this.state.deviceInfo.imei;
         return (
         <React.Fragment>
-          <SearchNavBar onClickSearch={this.handleSearch}/>
+          <SearchNavBar onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.date}/>
           <StyledButton style={{zIndex:"1", bottom: "0",
             position: "absolute", borderBottomLeftRadius: "0",
             borderTopLeftRadius: "0"}} onClick={()=>this.handleBackToList()} >
@@ -176,7 +196,7 @@ class LeafletDriftMarker extends Component {
       }else {
          return (
           <React.Fragment>
-            <SearchNavBar />
+            <SearchNavBar onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.date}/>
               <div className="alert text-center  mt-5 rtl" role="alert">
                 <h5>Loading...</h5>
               </div>

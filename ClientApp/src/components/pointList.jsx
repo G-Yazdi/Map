@@ -42,13 +42,18 @@ class PointList extends Component {
   }
   handleBrowsRoute = (point) => {
         if(point.locationTime !==null){
-            this.props.history.push(`/pointList/${point.deviceId}/browsedRoute`)
+            const date = new Date();
+            const time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getUTCDate());
+            console.log("time:", time)
+            this.props.history.push(`/pointList/${point.deviceId}/browsedRoute/${time}`)
         }
     }
     
     handleDisplayTraveledDistance = (point) => {
         if(point.locationTime !==null){
-            this.props.history.push(`/pointList/${point.deviceId}/traveledDistance`)
+            const date = new Date();
+            const time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getUTCDate());
+            this.props.history.push(`/pointList/${point.deviceId}/traveledDistance/${time}`)
         }
     }
   handleBackToList = () => {
