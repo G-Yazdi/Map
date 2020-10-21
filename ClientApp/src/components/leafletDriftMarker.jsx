@@ -69,9 +69,9 @@ class LeafletDriftMarker extends Component {
           this._isMounted = false;
           this.index = 0;
           const {date, deviceId} = this.props.match.params;
-          this.setState({isLoading:true})
+          this.setState({isLoading:true});
+          this.setState({date});
           await userService.getBrowsedRoute(deviceId, date).then(response => {
-            this.setState({date})
               const data = response.data;
               
               if (data !== null && data.deviceInfo !==null) {
@@ -91,8 +91,8 @@ class LeafletDriftMarker extends Component {
               }
           })
           .catch(error => {
-              console.log("error", error);
-              this.props.history.push(`/notFound`);
+            console.log("error", error);
+            this.props.history.push(`/notFound`);
           });
           if(this.state.points !==''){
             this.repeat();
@@ -101,21 +101,16 @@ class LeafletDriftMarker extends Component {
         }
       }
       componentWillUnmount() {
-        console.log("componentWillUnmount")
         this._isMounted = false;
       }
       repeat = () => {
-
-          
-          console.log("repeat")
-          
           if(this.index < this.state.points.length-1){
             this.index++;
             setTimeout(() => {
               if(this._isMounted){
                 this.setState({ latlng: this.get_position() }, this.repeat);
               }
-            }, 1000);
+            }, 2000);
           }
         
       };

@@ -44,7 +44,6 @@ class PointList extends Component {
         if(point.locationTime !==null){
             const date = new Date();
             const time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getUTCDate());
-            console.log("time:", time)
             this.props.history.push(`/pointList/${point.deviceId}/browsedRoute/${time}`)
         }
     }
