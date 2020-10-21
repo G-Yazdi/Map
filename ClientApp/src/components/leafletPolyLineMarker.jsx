@@ -4,7 +4,6 @@ import userService from "../services/userService";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import SearchNavBar from "./searchNavBar";
 const StyledButton = withStyles({
   root: {
     background: "linear-gradient(45deg, #846bfe, #846bfe)",
@@ -24,10 +23,9 @@ class LeafletPolyLineMarker extends Component {
         deviceInfo:'',
         date:''
       };
- 
+      
     async componentDidMount() {
       const {date, deviceId} = this.props.match.params;
-      this.setState({date});
         await userService.getBrowsedRoute(deviceId, date).then(response => {
           const data = response.data;
           if (data !== null && data.deviceInfo !== null) {
@@ -49,12 +47,12 @@ class LeafletPolyLineMarker extends Component {
           this.props.history.push(`/notFound`);
       });
     }
-
     async componentDidUpdate(prevProps) {
+      console.log("componentDidUpdate")
       if(this.props.match.params.date !== prevProps.match.params.date) {
+        console.log("componentDidUpdate1")
         const {date, deviceId} = this.props.match.params;
         this.setState({isLoading:true});
-        this.setState({date});
         await userService.getBrowsedRoute(deviceId, date).then(response => {
             const data = response.data;
             
@@ -65,7 +63,6 @@ class LeafletPolyLineMarker extends Component {
               this.props.history.push(`/notFound`);
             }
             if(data.browsedPoints !== null && data.browsedPoints.length > 0){
-              this._isMounted = true;
               this.setState({ points: data.browsedPoints});
               this.setState({ isLoading:false});
             }
@@ -77,23 +74,10 @@ class LeafletPolyLineMarker extends Component {
           console.log("error", error);
           this.props.history.push(`/notFound`);
         });
-        
       }
     }
     handleBackToList = () => {
         this.props.history.push("/");
-    };
-
-    handleSearch = () => {
-      this._isMounted = false;
-      this.setState({isLoading:true})
-      this.props.history.push(`/pointList/${this.state.deviceInfo.id}/traveledDistance/${this.state.date}`);
-    };
-
-    handleChange = (event) => {
-      let state = [...this.state.date];
-      state = event.target.value;
-      this.setState({date: state});
     };
 
     render() {
@@ -102,7 +86,6 @@ class LeafletPolyLineMarker extends Component {
             const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نامشخص";
             const title = "IMEI:" + this.state.deviceInfo.imei;
             return<React.Fragment>
-              <SearchNavBar onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.date}/>
               <StyledButton style={{zIndex:"1", bottom: "0",
                 position: "absolute", borderBottomLeftRadius: "0",
                 borderTopLeftRadius: "0"}} onClick={()=>this.handleBackToList()} >
@@ -142,7 +125,6 @@ class LeafletPolyLineMarker extends Component {
         }else {
             return (
              <React.Fragment>
-               <SearchNavBar onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.date}/>
                  <div className="alert text-center  mt-5 rtl" role="alert">
                    <h5>Loading...</h5>
                  </div>

@@ -44,7 +44,7 @@ class PointList extends Component {
         if(point.locationTime !==null){
             const date = new Date();
             const time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getUTCDate());
-            this.props.history.push(`/pointList/${point.deviceId}/browsedRoute/${time}`)
+            this.props.history.push({pathname:`/pointList/${point.deviceId}/browsedRoute/${time}`, state: { date: time, deviceId: point.deviceId}})
         }
     }
     
@@ -52,7 +52,7 @@ class PointList extends Component {
         if(point.locationTime !==null){
             const date = new Date();
             const time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getUTCDate());
-            this.props.history.push(`/pointList/${point.deviceId}/traveledDistance/${time}`)
+            this.props.history.push({pathname:`/pointList/${point.deviceId}/traveledDistance/${time}`, state: { date: time, deviceId: point.deviceId }})
         }
     }
   handleBackToList = () => {
@@ -63,7 +63,6 @@ class PointList extends Component {
       if (!this.state.isLoading) {
               return (
                 <React.Fragment>
-                <NavBar />
                   <Container className={classes.cardGrid} maxWidth="md">
                       <Grid container spacing={4}>
                           {this.state.points.map((point) => (
@@ -82,7 +81,6 @@ class PointList extends Component {
       } else {
           return (
               <React.Fragment>
-                  <NavBar />
                   <div
                       className="alert text-center  mt-5 rtl"
                       role="alert"

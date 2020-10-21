@@ -5,7 +5,6 @@ import userService from "../services/userService";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import SearchNavBar from "./searchInput";
 const StyledButton = withStyles({
   root: {
     background: "linear-gradient(45deg, #846bfe, #846bfe)",
@@ -26,8 +25,7 @@ class LeafletDriftMarker extends Component {
         isLoading: true,
           points: '',
           deviceInfo:'', 
-          latlng: '',
-          date:''
+          latlng: ''
         };
     }
     
@@ -35,7 +33,6 @@ class LeafletDriftMarker extends Component {
     async componentDidMount() {
       this._isMounted = true;
       const {date, deviceId} = this.props.match.params;
-      this.setState({date});
       await userService.getBrowsedRoute(deviceId, date).then(response => {
           const data = response.data;
           if (data !== null && data.deviceInfo !== null) {
@@ -70,7 +67,6 @@ class LeafletDriftMarker extends Component {
           this.index = 0;
           const {date, deviceId} = this.props.match.params;
           this.setState({isLoading:true});
-          this.setState({date});
           await userService.getBrowsedRoute(deviceId, date).then(response => {
               const data = response.data;
               
@@ -126,17 +122,6 @@ class LeafletDriftMarker extends Component {
       handleBackToList = () => {
         this.props.history.push("/");
       };
-      handleSearch = () => {
-        this._isMounted = false;
-        this.setState({isLoading:true})
-        this.props.history.push(`/pointList/${this.state.deviceInfo.id}/browsedRoute/${this.state.date}`);
-      };
-
-      handleChange = (event) => {
-        let state = [...this.state.date];
-        state = event.target.value;
-        this.setState({date: state});
-      };
     render() {
       
       if (!this.state.isLoading) {
@@ -144,7 +129,6 @@ class LeafletDriftMarker extends Component {
         const title = "IMEI:" + this.state.deviceInfo.imei;
         return (
         <React.Fragment>
-          <SearchNavBar onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.date}/>
           <StyledButton style={{zIndex:"1", bottom: "0",
             position: "absolute", borderBottomLeftRadius: "0",
             borderTopLeftRadius: "0"}} onClick={()=>this.handleBackToList()} >
@@ -191,7 +175,6 @@ class LeafletDriftMarker extends Component {
       }else {
          return (
           <React.Fragment>
-            <SearchNavBar onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.date}/>
               <div className="alert text-center  mt-5 rtl" role="alert">
                 <h5>Loading...</h5>
               </div>
