@@ -22,12 +22,14 @@ namespace SampleReactApp.Models.Response
         public int Id { get;}
         public string IMEI { get;}
         public string NickName { get;}
+        public string SimNumber { get; set; }
 
-        public DeviceInfo(int id, string imei, string nickName)
+        public DeviceInfo(int id, string imei, string nickName, string simNumber)
         {
             Id = id;
             IMEI = imei;
             NickName = nickName;
+            SimNumber = simNumber;
         }
     }
 }

@@ -3,10 +3,13 @@ import { Map, TileLayer, Polyline, Marker} from 'react-leaflet';
 import userService from "../services/userService";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import Card from "./card";
 const StyledButton = withStyles({
   root: {
-    background: "linear-gradient(45deg, #846bfe, #846bfe)",
+    background: "rgb(63, 81, 181)",
+    '&:hover': {
+      background: "rgb(63, 81, 181)"
+  },
     border: 0,
     color: "white",
     height: 30,
@@ -48,9 +51,7 @@ class LeafletPolyLineMarker extends Component {
       });
     }
     async componentDidUpdate(prevProps) {
-      console.log("componentDidUpdate")
       if(this.props.match.params.date !== prevProps.match.params.date) {
-        console.log("componentDidUpdate1")
         const {date, deviceId} = this.props.match.params;
         this.setState({isLoading:true});
         await userService.getBrowsedRoute(deviceId, date).then(response => {
@@ -84,24 +85,14 @@ class LeafletPolyLineMarker extends Component {
         if (!this.state.isLoading) {
             const length = this.state.points.length;
             const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نامشخص";
-            const title = "IMEI:" + this.state.deviceInfo.imei;
             return<React.Fragment>
               <StyledButton style={{zIndex:"1", bottom: "0",
                 position: "absolute", borderBottomLeftRadius: "0",
                 borderTopLeftRadius: "0"}} onClick={()=>this.handleBackToList()} >
-                    برگشت
+                  برگشت
               </StyledButton>
                 
-            <Typography  variant="body2" color="textSecondary" component="p" align="right" 
-                style={{fontFamily:"Vazir", fontSize:"20px", backgroundColor:"white", width:"fit-content", 
-                right:"5px", position:"absolute"}}>
-                    {title}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p" align="right" 
-                style={{fontFamily:"Vazir", fontSize:"20px", backgroundColor:"white" , width:"fit-content", 
-                right:"5px", position:"absolute", marginTop:"25px"}}>
-                    {fullName}
-            </Typography>
+              <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber}/>
              <Map 
                     center={[this.state.points[length - 1].latitude, this.state.points[length - 1].longitude]} zoom={15}
                     style={{

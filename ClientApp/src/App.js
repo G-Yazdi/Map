@@ -1,11 +1,9 @@
 import React, {Component} from "react";
 import "./App.css";
-import Layout from "./components/layout";
 import {Route, Switch, Redirect, withRouter } from "react-router-dom";
 import NavBar from "./components/navBar";
 import PointList from "./components/pointList";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import LeafletDriftMarker from "./components/leafletDriftMarker1";
+import LeafletDriftMarker from "./components/leafletDriftMarker";
 import LeafletPolyLineMarker from "./components/leafletPolyLineMarker";
 import NotFound from "./components/notFound";
 import SearchInput from "./components/searchInput";

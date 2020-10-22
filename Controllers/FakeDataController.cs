@@ -51,8 +51,8 @@ namespace SampleReactApp.Controllers
 
 
             return new DeviceBrowsedPoints(
-                browsedRoute?.Select(r => new GeographicalPoint(r.Location.Longitude, r.Location.Latitude)).ToList(),
-                new DeviceInfo(deviceInfo.ID, deviceInfo.IMEI, deviceInfo.Nickname));
+                browsedRoute?.Select(r => new GeographicalPoint(r.Location.Longitude, r.Location.Latitude, r.Location.Speed, r.Location.Time)).ToList(),
+                new DeviceInfo(deviceInfo.ID, deviceInfo.IMEI, deviceInfo.Nickname, deviceInfo.SimNumber));
         }
     }
 }

@@ -87,9 +87,9 @@ export default function NavBar(props) {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+        <img src={require("../images/logo.png").default} alt="logo" style={{height:"32px"}} />
+          <Typography className={classes.title} style={{marginLeft: "10px"}} variant="h6" noWrap>
             GPS Report
-
           </Typography>
           {props.children}
         </Toolbar>
