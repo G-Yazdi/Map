@@ -28,10 +28,10 @@ class LeafletDriftMarker extends Component {
       super(props);
       this.state = {
         isLoading: true,
-          points: '',
-          deviceInfo:'', 
-          pointInfo: {lat:'', lng:'', speed:'', time:''}
-        };
+        points: '',
+        deviceInfo:'', 
+        pointInfo: {lat:'', lng:'', speed:'', time:''}
+      };
     }
     
  
@@ -45,6 +45,7 @@ class LeafletDriftMarker extends Component {
           }
           else{
             this.props.history.push(`/notFound`);
+            return;
           }
           if(data.browsedPoints !== null && data.browsedPoints.length > 0 && this._isMounted){
             this.setState({ points: data.browsedPoints});
@@ -52,12 +53,14 @@ class LeafletDriftMarker extends Component {
             this.setState({ isLoading:false});
           }
           else{
-            this.setState({ isLoading:true});
+            this.props.history.replace(`/notFound`);
+            return;
           }
       })
       .catch(error => {
           console.log("error", error);
           this.props.history.push(`/notFound`);
+          return;
       });
       
       if(this.state.points !==''){
@@ -80,6 +83,7 @@ class LeafletDriftMarker extends Component {
               }
               else{
                 this.props.history.push(`/notFound`);
+                return;
               }
               if(data.browsedPoints !== null && data.browsedPoints.length > 0){
                 this._isMounted = true;
@@ -88,12 +92,14 @@ class LeafletDriftMarker extends Component {
                 this.setState({ isLoading:false});
               }
               else{
-                this.setState({points:''});
+                this.props.history.replace(`/notFound`);
+                return;
               }
           })
           .catch(error => {
             console.log("error", error);
             this.props.history.push(`/notFound`);
+            return;
           });
           if(this.state.points !==''){
             this.repeat();
@@ -127,12 +133,12 @@ class LeafletDriftMarker extends Component {
         }
       }
       handleBackToList = () => {
-        this.props.history.push("/");
+        this.props.history.replace("/");
       };
     render() {
       
       if (!this.state.isLoading) {
-        const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نامشخص";
+        const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نام و نام خانوادگی";
         return (
         <React.Fragment>
           <StyledButton style={{zIndex:"1", bottom: "0",

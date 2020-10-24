@@ -46,6 +46,10 @@ namespace SampleReactApp.Controllers
             var startOfDay = locationTime.Date;
             var endOfDay = locationTime.Date.AddDays(1).AddTicks(-1);
             var deviceInfo = await _mapService.DeviceService.GetAsync(deviceId);
+            if (deviceInfo is null)
+            {
+                return null;
+            }
             var browsedRoute =
                 await _mapService.ReportService.BrowseRoute(deviceId, startOfDay, endOfDay);
 

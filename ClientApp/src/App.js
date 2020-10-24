@@ -8,6 +8,7 @@ import LeafletPolyLineMarker from "./components/leafletPolyLineMarker";
 import NotFound from "./components/notFound";
 import SearchInput from "./components/searchInput";
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -58,6 +59,8 @@ class App extends Component {
         {(path.includes("browsedRoute") || path.includes("traveledDistance")) && 
         <SearchInput onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.date}/>}
       </NavBar>
+      
+      
       
     <Switch>
       <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>

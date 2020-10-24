@@ -37,7 +37,7 @@ const PointInMultipleMode = (props) => {
   let str = point.locationTime;
   let formatedDate = Moment(str).fromNow();
   const title = "IMEI:" + point.deviceIMEI;
-  const fullName = point.deviceNickname !=="N/A" ? point.deviceNickname : "نامشخص";
+  const fullName = point.deviceNickname !=="N/A" ? point.deviceNickname : "نام و نام خانوادگی";
 
   return (
     <Card className={classes.card}>

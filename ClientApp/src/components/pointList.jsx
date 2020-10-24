@@ -4,7 +4,6 @@ import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/core/styles";
 import userService from "../services/userService";
 import PointInMultipleMode from "./pointInMultipleMode";
-import NavBar from "./navBar";
 
 const useStyles = (theme) => ({
   cardGrid: {
@@ -64,7 +63,7 @@ class PointList extends Component {
               return (
                 <React.Fragment>
                   <Container className={classes.cardGrid} maxWidth="md">
-                      <Grid container spacing={4}>
+                      <Grid container spacing={4} style={{marginTop: "36px"}}>
                           {this.state.points.map((point) => (
                               <Grid item key={point.deviceId} xs={12} sm={6} md={4}>
                                   <PointInMultipleMode

@@ -36,18 +36,21 @@ class LeafletPolyLineMarker extends Component {
           }
           else{
             this.props.history.push(`/notFound`);
+            return;
           }
           if(data.browsedPoints !== null && data.browsedPoints.length > 0){
             this.setState({ points: data.browsedPoints});
             this.setState({ isLoading:false});
           }
           else{
-            this.setState({ isLoading:true});
+            this.props.history.replace(`/notFound`);
+            return;
           }
       })
       .catch(error => {
           console.log("error", error);
           this.props.history.push(`/notFound`);
+          return;
       });
     }
     async componentDidUpdate(prevProps) {
@@ -62,29 +65,32 @@ class LeafletPolyLineMarker extends Component {
             }
             else{
               this.props.history.push(`/notFound`);
+              return;
             }
             if(data.browsedPoints !== null && data.browsedPoints.length > 0){
               this.setState({ points: data.browsedPoints});
               this.setState({ isLoading:false});
             }
             else{
-              this.setState({points:''});
+              this.props.history.replace(`/notFound`);
+              return;
             }
         })
         .catch(error => {
           console.log("error", error);
           this.props.history.push(`/notFound`);
+          return;
         });
       }
     }
     handleBackToList = () => {
-        this.props.history.push("/");
+        this.props.history.replace("/");
     };
 
     render() {
         if (!this.state.isLoading) {
             const length = this.state.points.length;
-            const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نامشخص";
+            const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نام و نام خانوادگی";
             return<React.Fragment>
               <StyledButton style={{zIndex:"1", bottom: "0",
                 position: "absolute", borderBottomLeftRadius: "0",

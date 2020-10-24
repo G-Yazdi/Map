@@ -3,7 +3,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
-
+import {DatePicker} from 'react-persian-datepicker';
 const useStyles = makeStyles((theme) => ({
   search: {
     position: "absolute",
@@ -56,8 +56,8 @@ export default function SearchInput(props) {
 
   return (
     <div className={classes.grow}>
-          <div className={classes.search}>
-            <InputBase
+          <div className={classes.search} style={{display: "flex"}}>
+            {/* <InputBase
               placeholder="تاریخ..."
               style={{fontFamily:"Vazir"}}
               classes={{
@@ -67,7 +67,19 @@ export default function SearchInput(props) {
               value={props.date || ''}
               inputProps={{ 'aria-label': 'تاریخ' }}
               onChange={(event)=>onDataChange(event)}
-            />
+            /> */}
+            <DatePicker calendarStyles={ {
+              calendarContainer: "calendarContainer",
+              dayPickerContainer: "dayPickerContainer",
+              monthsList: "monthsList",
+              daysOfWeek: "daysOfWeek",
+              dayWrapper: "dayWrapper",
+              selected: "selected",
+              heading: "heading",
+              next: "next",
+              prev: "prev",
+              title: "title", fontFamily:'Vazir'}} style={{fontFamily:'Vazir'}}/>
+            
             <IconButton style={{color:"rgba(255, 255, 255, 0.54)"}} aria-label="search" onClick={()=>props.onClickSearch()}>
             <div className={classes.searchIcon}>
               <SearchIcon style={{color:"rgba(255, 255, 255, 0.54)"}}/>

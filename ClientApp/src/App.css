@@ -14,14 +14,13 @@
 }
 @font-face {
   font-family: "Vazir";
-  src: url(./fonts/Vazir-Light-WOL.ttf);
-  src: url(./fonts/Vazir-WOL.ttf);
+  src: url(./fonts/Vazir-Light-FD-WOL.ttf);
   }
 body{
   font-family: "Vazir";
 }
 .MuiTypography-body2 {
-  font-family: "Vazir !important";
+  font-family: "Vazir" !important;
 }
 .App-header {
   background-color: #282c34;
@@ -36,6 +35,15 @@ body{
 
 .App-link {
   color: #61dafb;
+}
+.ignore--click--outside{
+  text-align: center !important;
+  font-family: "Vazir" !important;
+}
+
+.tether-target input{
+  text-align: center !important;
+  font-family: "Vazir" !important;
 }
 
 @keyframes App-logo-spin {

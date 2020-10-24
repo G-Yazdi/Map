@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import Avatar from '@material-ui/core/Avatar';
-import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
@@ -28,18 +26,22 @@ export default function OutlinedCard(props) {
         fontFamily: 'Vazir',
         right: "16px",
         width: "196px",
-        textAlign: "center",}} variant="outlined">
+        textAlign: "center",
+        marginTop: "74px"}} variant="outlined">
       <CardContent>
         <Typography style={{fontFamily:"Vazir"}}  component="p">
             {props.fullName}
         </Typography>
         <br/>
-            <img src={require("../images/mobile.png").default} style={{height:"512px"}} />  
+        <div>
+          <img src={require("../images/11.png").default}  style={{height:"21px", display: "inline-block", marginLeft: "-8px",
+            marginRight: "5px"}}/> 
+          <Typography style={{fontFamily:"Vazir", display: "inline-block"}}  component="p">
+              {props.simNumber}
+          </Typography>
+        </div>
         
-        <Typography style={{fontFamily:"Vazir"}}  component="p">
-            
-            {props.simNumber}
-        </Typography>
+        
         <br/>
       </CardContent>
       <CardContent style={{backgroundColor: "rgba(148, 179, 239, 0.5)", paddingTop: "10px", height: "5px", marginTop: "-20px"}}>
