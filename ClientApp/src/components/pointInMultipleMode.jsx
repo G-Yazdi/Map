@@ -35,18 +35,15 @@ const PointInMultipleMode = (props) => {
   const classes = useStyles();
   const { point, onClickBrowsRoute, onClickDisplayTraveledDistance} = props;
   let str = point.locationTime;
-  let formatedDate = Moment(str).fromNow();
+  console.log("str", str)
+  let formatedDate = str? Moment(str).fromNow(): "تاریخ";
   const title = "IMEI:" + point.deviceIMEI;
   const fullName = point.deviceNickname !=="N/A" ? point.deviceNickname : "نام و نام خانوادگی";
 
   return (
     <Card className={classes.card}>
-      <CardHeader style={{fontFamily:"arial !important", fontSize:"15px"}}
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
+      <CardHeader style={{fontFamily:"Vazir", fontSize:"15px", direction: "rtl",
+    textAlign: "center"}}
         title={title}
         subheader={formatedDate}
       />

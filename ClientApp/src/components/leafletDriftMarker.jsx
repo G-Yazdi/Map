@@ -4,9 +4,11 @@ import { DriftMarker } from "leaflet-drift-marker";
 import userService from "../services/userService";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Fab from "@material-ui/core/Fab";
 import Typography from "@material-ui/core/Typography";
 import Card from "./card";
 import Moment from "moment";
+import AddIcon from '@material-ui/icons/Add';
 const StyledButton = withStyles({
   root: {
     background: "rgb(63, 81, 181)",
@@ -141,11 +143,15 @@ class LeafletDriftMarker extends Component {
         const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نام و نام خانوادگی";
         return (
         <React.Fragment>
+          
           <StyledButton style={{zIndex:"1", bottom: "0",
             position: "absolute", borderBottomLeftRadius: "0",
             borderTopLeftRadius: "0"}} onClick={()=>this.handleBackToList()} >
               برگشت
           </StyledButton>
+          {/* <Fab color="secondary">
+          <AddIcon />
+          </Fab> */}
         
           <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber}/>
           <Typography variant="body2" color="textSecondary" component="p" align="right" 

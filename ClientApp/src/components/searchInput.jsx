@@ -4,6 +4,7 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import {DatePicker} from 'react-persian-datepicker';
+import Moment from "moment";
 const useStyles = makeStyles((theme) => ({
   search: {
     position: "absolute",
@@ -48,13 +49,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchInput(props) {
   const classes = useStyles();
-  
-  const onDataChange = (event)=> {
-    props.onChange(event);
-}
+  const [state, setState]=React.useState(null)
+
+  const onDataChange = (value)=> {
+    // console.log("1:", value)
+    // let date = value._d;
+    // date = new Date(date.toString().slice(0, 28)).toISOString()
+    // date = date.slice(0,10)
+    // console.log("2:", date)
+    props.onChange(value);
+  }
 
 
   return (
+    
     <div className={classes.grow}>
           <div className={classes.search} style={{display: "flex"}}>
             {/* <InputBase
@@ -78,7 +86,9 @@ export default function SearchInput(props) {
               heading: "heading",
               next: "next",
               prev: "prev",
-              title: "title", fontFamily:'Vazir'}} style={{fontFamily:'Vazir'}}/>
+              title: "title", fontFamily:'Vazir'}} style={{fontFamily:'Vazir'}}
+              value={props.date !== '' ? props.date: null}
+              onChange={(value)=>onDataChange(value)}/>
             
             <IconButton style={{color:"rgba(255, 255, 255, 0.54)"}} aria-label="search" onClick={()=>props.onClickSearch()}>
             <div className={classes.searchIcon}>

@@ -7,6 +7,7 @@ import LeafletDriftMarker from "./components/leafletDriftMarker";
 import LeafletPolyLineMarker from "./components/leafletPolyLineMarker";
 import NotFound from "./components/notFound";
 import SearchInput from "./components/searchInput";
+import Moment from "moment";
 
 
 class App extends Component {
@@ -14,7 +15,8 @@ class App extends Component {
     super(props);
     this.state = {
       date:'',
-      deviceId:''
+      deviceId:'',
+      validDate:''
     };
   }
 
@@ -36,31 +38,35 @@ class App extends Component {
   }
 
   handleSearch = () => {
+    let date = this.state.validDate._d;
+      date = new Date(date.toString().slice(0, 28)).toISOString()
+      date = date.slice(0,10)
     if(this.props.location.pathname.includes("browsedRoute")){
+      // console.log("1:", value)
+      
       this.props.history.push(
-        {pathname:`/pointList/${this.state.deviceId}/browsedRoute/${this.state.date}`, 
-        state: { date: this.state.date, deviceId: this.state.deviceId}});
+        {pathname:`/pointList/${this.state.deviceId}/browsedRoute/${date}`, 
+        state: { date: date, deviceId: this.state.deviceId}});
     }
     else{
       this.props.history.push(
-        {pathname:`/pointList/${this.state.deviceId}/traveledDistance/${this.state.date}`, 
-        state: { date: this.state.date, deviceId: this.state.deviceId}});
+        {pathname:`/pointList/${this.state.deviceId}/traveledDistance/${date}`, 
+        state: { date: date, deviceId: this.state.deviceId}});
     }
 
   };
 
-  handleChange = (event) => {
-    this.setState({date: event.target.value});
+  handleChange = (value) => {
+    console.log("3:", value)
+    this.setState({validDate: value});
   };
   render(){
     const path = this.props.location.pathname;
     return <React.Fragment>
       <NavBar>
         {(path.includes("browsedRoute") || path.includes("traveledDistance")) && 
-        <SearchInput onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.date}/>}
+        <SearchInput onClickSearch={this.handleSearch} onChange={this.handleChange} date={this.state.validDate}/>}
       </NavBar>
-      
-      
       
     <Switch>
       <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>
