@@ -8,8 +8,13 @@ export function getBrowsedRoute (Id, LocationTime)
 {
     return http.get(User.GetBrowsedRoute + "?deviceId=" + Id + "&locationTime=" + LocationTime);
 }
+export function getMonitoringMap() {
+    console.log("1")
+    return http.get(User.GetMonitoringMap);
+}
 export default {
     getLastLocations,
-    getBrowsedRoute
+    getBrowsedRoute,
+    getMonitoringMap
 
 };

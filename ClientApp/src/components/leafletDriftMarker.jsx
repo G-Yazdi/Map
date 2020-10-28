@@ -15,17 +15,19 @@ class LeafletDriftMarker extends Component {
     _isMounted = false;
     constructor(props) {
       super(props);
-      this.state = {
-        isLoading: true,
-        points: '',
-        deviceInfo:'', 
-        pointInfo: {lat:'', lng:'', speed:'', time:''}
-      };
       this.date ={};
     if(this.props.location.state){
       const {date} = this.props.location.state;
       this.date = new Date(date).toLocaleDateString('fa-IR');
     }
+      this.state = {
+        isLoading: true,
+        points: '',
+        deviceInfo:'', 
+        pointInfo: {lat:'', lng:'', speed:'', time:''},
+        date:this.date
+      };
+      
     }
     
  
@@ -74,6 +76,8 @@ class LeafletDriftMarker extends Component {
               
               if (data !== null && data.deviceInfo !==null) {
                 this.setState({ deviceInfo: data.deviceInfo});
+                const {date} = this.props.location.state;
+                this.setState({date:new Date(date).toLocaleDateString('fa-IR')});
               }
               else{
                 this.props.history.push(`/notFound`);
@@ -141,7 +145,7 @@ class LeafletDriftMarker extends Component {
                <ArrowBackIcon />
           </Fab>
         
-          <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.date}/>
+          <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.state.date}/>
           <Typography variant="body2" color="textSecondary" component="p" align="right" 
             style={{fontFamily:"Vazir", fontSize:"20px", backgroundColor:"white" , width:"fit-content", 
             right:"5px", position:"absolute", marginTop:"50px"}}>

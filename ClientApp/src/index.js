@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
 import * as serviceWorker from './serviceWorker';
+import 'leaflet/dist/leaflet.css'; // sass
+import 'react-leaflet-markercluster/dist/styles.min.css';
 
 ReactDOM.render(
   <React.StrictMode>

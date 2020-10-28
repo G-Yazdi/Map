@@ -35,6 +35,34 @@ namespace SampleReactApp.Controllers
             return desiredResult;
         }
 
+        //[Route("GetCustomers")]
+        //[HttpGet]
+        //public async Task<List<CustomerInformation>> GetCustomers()
+        //{
+        //    _caller = new ApiCaller();
+        //    _configuration = new WebApiConfiguration();
+        //    _mapService = new MapService(_caller, _configuration);
+
+        //    var customers = await _mapService.CustomerService.GetByAreaAsync(1).ConfigureAwait(false);
+        //    var desiredResult = customers.Select(x => new CustomerInformation(x.Name, x.Address,x.Longitude, x.Latitude, x.ID)).ToList();
+        //    return desiredResult;
+        //}
+        [Route("GetMonitoringMap")]
+        [HttpGet]
+        public async Task<MonitoringMap> GetMonitoringMap()
+        {
+            _caller = new ApiCaller();
+            _configuration = new WebApiConfiguration();
+            _mapService = new MapService(_caller, _configuration);
+
+            var customers = await _mapService.CustomerService.GetByAreaAsync(1).ConfigureAwait(false);
+            var desiredcustomers = customers.Select(x => new CustomerInformation(x.Name, x.Address, x.Longitude, x.Latitude, x.ID)).ToList();
+
+            var devices = await _mapService.ReportService.GetLastLocationsAsync().ConfigureAwait(false);
+            var desireddevices = devices.Select(x => new Point(x.Device.ID, x.Device.IMEI, x.Device.Nickname,
+                x.Location?.Time, x.Location?.Longitude, x.Location?.Latitude)).ToList();
+            return new MonitoringMap(desireddevices, desiredcustomers);
+        }
         [Route("GetDeviceBrowsedPoints")]
         [HttpGet]
         public async Task<DeviceBrowsedPoints> GetBrowsedRoute(int deviceId, DateTime locationTime)

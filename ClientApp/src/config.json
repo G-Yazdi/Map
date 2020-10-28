@@ -1,6 +1,7 @@
 {
   "User": {
     "GetLastLocations": "GetLastLocations",
-    "GetBrowsedRoute": "GetDeviceBrowsedPoints"
+    "GetBrowsedRoute": "GetDeviceBrowsedPoints",
+    "GetMonitoringMap": "GetMonitoringMap"
   }
 }

@@ -9,12 +9,22 @@ import Card from "./card";
 
 
 class LeafletPolyLineMarker extends Component {
-    state = {
-        isLoading: true,
-        points: '',
-        deviceInfo:'',
-        date:''
-      };
+  constructor(props) {
+    super(props);
+    this.date ={};
+  if(this.props.location.state){
+    const {date} = this.props.location.state;
+    this.date = new Date(date).toLocaleDateString('fa-IR');
+  }
+    this.state = {
+      isLoading: true,
+      points: '',
+      deviceInfo:'',
+      date:this.date
+    };
+    
+  }
+    
       
     async componentDidMount() {
       const {date, deviceId} = this.props.match.params;
@@ -51,6 +61,8 @@ class LeafletPolyLineMarker extends Component {
             
             if (data !== null && data.deviceInfo !==null) {
               this.setState({ deviceInfo: data.deviceInfo});
+              const {date} = this.props.location.state;
+              this.setState({ date: new Date(date).toLocaleDateString('fa-IR')});
             }
             else{
               this.props.history.push(`/notFound`);
@@ -86,7 +98,7 @@ class LeafletPolyLineMarker extends Component {
                <ArrowBackIcon />
           </Fab>
                 
-              <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber}/>
+              <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.state.date}/>
              <Map 
                     center={[this.state.points[length - 1].latitude, this.state.points[length - 1].longitude]} zoom={15}
                     style={{

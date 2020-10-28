@@ -36,12 +36,7 @@ body{
 .App-link {
   color: #61dafb;
 }
-.ignore--click--outside{
-  text-align: center !important;
-  font-family: "Vazir" !important;
-}
-
-.tether-target input{
+.ignore--click--outside, .tether-target input, .MuiToolbar-regular >* input{
   text-align: center !important;
   font-family: "Vazir" !important;
 }
@@ -51,13 +46,8 @@ body{
 .MuiTypography-h5{
   font-size: 20px !important;
 }
-.makeStyles-search>* input{
-  text-align: center !important;
-  font-family: "Vazir" !important;
-}
-.MuiToolbar-regular >* input{
-  text-align: center !important;
-  font-family: "Vazir" !important;
+.tether-element{
+  transform: translateX(1335.53px) translateY(50px) translateZ(0px) !important;
 }
 .MuiCardHeader-title{
   line-height: 28px;
