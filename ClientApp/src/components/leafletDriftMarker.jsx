@@ -4,24 +4,11 @@ import { DriftMarker } from "leaflet-drift-marker";
 import userService from "../services/userService";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Fab from "@material-ui/core/Fab";
 import Typography from "@material-ui/core/Typography";
 import Card from "./card";
 import Moment from "moment";
-import AddIcon from '@material-ui/icons/Add';
-const StyledButton = withStyles({
-  root: {
-    background: "rgb(63, 81, 181)",
-    '&:hover': {
-      background: "rgb(63, 81, 181)"
-  },
-    border: 0,
-    color: "white",
-    height: 30,
-    size: "small",
-    fontFamily:"vazir"
-  },
-})(Button);
+import Fab from '@material-ui/core/Fab';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
  
 class LeafletDriftMarker extends Component {
     index = 0;
@@ -34,6 +21,11 @@ class LeafletDriftMarker extends Component {
         deviceInfo:'', 
         pointInfo: {lat:'', lng:'', speed:'', time:''}
       };
+      this.date ={};
+    if(this.props.location.state){
+      const {date} = this.props.location.state;
+      this.date = new Date(date).toLocaleDateString('fa-IR');
+    }
     }
     
  
@@ -140,20 +132,16 @@ class LeafletDriftMarker extends Component {
     render() {
       
       if (!this.state.isLoading) {
+        
         const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نام و نام خانوادگی";
         return (
         <React.Fragment>
-          
-          <StyledButton style={{zIndex:"1", bottom: "0",
-            position: "absolute", borderBottomLeftRadius: "0",
-            borderTopLeftRadius: "0"}} onClick={()=>this.handleBackToList()} >
-              برگشت
-          </StyledButton>
-          {/* <Fab color="secondary">
-          <AddIcon />
-          </Fab> */}
+          <Fab color="primary" aria-label="add" style={{zIndex:"1", bottom: "0",
+            position: "absolute"}} onClick={()=>this.handleBackToList()}>
+               <ArrowBackIcon />
+          </Fab>
         
-          <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber}/>
+          <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.date}/>
           <Typography variant="body2" color="textSecondary" component="p" align="right" 
             style={{fontFamily:"Vazir", fontSize:"20px", backgroundColor:"white" , width:"fit-content", 
             right:"5px", position:"absolute", marginTop:"50px"}}>

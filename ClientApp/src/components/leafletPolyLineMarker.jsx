@@ -3,20 +3,9 @@ import { Map, TileLayer, Polyline, Marker} from 'react-leaflet';
 import userService from "../services/userService";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Fab from '@material-ui/core/Fab';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Card from "./card";
-const StyledButton = withStyles({
-  root: {
-    background: "rgb(63, 81, 181)",
-    '&:hover': {
-      background: "rgb(63, 81, 181)"
-  },
-    border: 0,
-    color: "white",
-    height: 30,
-    size: "small",
-    fontFamily:"vazir"
-  },
-})(Button);
 
 
 class LeafletPolyLineMarker extends Component {
@@ -92,11 +81,10 @@ class LeafletPolyLineMarker extends Component {
             const length = this.state.points.length;
             const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نام و نام خانوادگی";
             return<React.Fragment>
-              <StyledButton style={{zIndex:"1", bottom: "0",
-                position: "absolute", borderBottomLeftRadius: "0",
-                borderTopLeftRadius: "0"}} onClick={()=>this.handleBackToList()} >
-                  برگشت
-              </StyledButton>
+              <Fab color="primary" aria-label="add" style={{zIndex:"1", bottom: "0",
+            position: "absolute"}} onClick={()=>this.handleBackToList()}>
+               <ArrowBackIcon />
+          </Fab>
                 
               <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber}/>
              <Map 

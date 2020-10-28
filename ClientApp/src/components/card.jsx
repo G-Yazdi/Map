@@ -39,6 +39,10 @@ export default function OutlinedCard(props) {
           <Typography style={{fontFamily:"Vazir", display: "inline-block"}}  component="p">
               {props.simNumber}
           </Typography>
+          <br/>
+          <Typography style={{fontFamily:"Vazir", display: "inline-block", marginTop: "10px"}}  component="p">
+              {props.date}
+          </Typography>
         </div>
         
         

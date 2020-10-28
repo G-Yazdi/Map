@@ -52,11 +52,6 @@ export default function SearchInput(props) {
   const [state, setState]=React.useState(null)
 
   const onDataChange = (value)=> {
-    // console.log("1:", value)
-    // let date = value._d;
-    // date = new Date(date.toString().slice(0, 28)).toISOString()
-    // date = date.slice(0,10)
-    // console.log("2:", date)
     props.onChange(value);
   }
 
@@ -65,17 +60,6 @@ export default function SearchInput(props) {
     
     <div className={classes.grow}>
           <div className={classes.search} style={{display: "flex"}}>
-            {/* <InputBase
-              placeholder="تاریخ..."
-              style={{fontFamily:"Vazir"}}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              value={props.date || ''}
-              inputProps={{ 'aria-label': 'تاریخ' }}
-              onChange={(event)=>onDataChange(event)}
-            /> */}
             <DatePicker calendarStyles={ {
               calendarContainer: "calendarContainer",
               dayPickerContainer: "dayPickerContainer",
@@ -87,7 +71,8 @@ export default function SearchInput(props) {
               next: "next",
               prev: "prev",
               title: "title", fontFamily:'Vazir'}} style={{fontFamily:'Vazir'}}
-              value={props.date !== '' ? props.date: null}
+              value={props.date !== '' ? props.date: props.defaultDate}
+              defaultValue={props.defaultDate}
               onChange={(value)=>onDataChange(value)}/>
             
             <IconButton style={{color:"rgba(255, 255, 255, 0.54)"}} aria-label="search" onClick={()=>props.onClickSearch()}>

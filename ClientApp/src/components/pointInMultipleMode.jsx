@@ -36,7 +36,7 @@ const PointInMultipleMode = (props) => {
   const { point, onClickBrowsRoute, onClickDisplayTraveledDistance} = props;
   let str = point.locationTime;
   console.log("str", str)
-  let formatedDate = str? Moment(str).fromNow(): "تاریخ";
+  let formatedDate = str? Moment(str).fromNow(): " تاریخ در دسترس نیست";
   const title = "IMEI:" + point.deviceIMEI;
   const fullName = point.deviceNickname !=="N/A" ? point.deviceNickname : "نام و نام خانوادگی";
 

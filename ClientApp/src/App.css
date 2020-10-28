@@ -51,6 +51,21 @@ body{
 .MuiTypography-h5{
   font-size: 20px !important;
 }
+.makeStyles-search>* input{
+  text-align: center !important;
+  font-family: "Vazir" !important;
+}
+.MuiToolbar-regular >* input{
+  text-align: center !important;
+  font-family: "Vazir" !important;
+}
+.MuiCardHeader-title{
+  line-height: 28px;
+}
+.calendarContainer{
+  width: 241px !important;
+  right:0
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
