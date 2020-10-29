@@ -56,6 +56,19 @@ body{
   width: 241px !important;
   right:0
 }
+.leaflet-marker-icon{
+  margin-top: -38px !important
+}
+.monitoringButton{
+  position: absolute !important;
+  right: 15px !important;
+  color: white !important;
+}
+.monitoringButton button{
+  color: white !important;
+  font-family: 'Vazir' !important;
+  font-size: 16px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

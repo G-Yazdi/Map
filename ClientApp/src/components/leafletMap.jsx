@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
 import Image from "../images/unavailable.png";
+import {iconVisitor} from "./icon";
 import { withStyles } from "@material-ui/core/styles";
 
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-    iconUrl: require('../images/store.png').default,
-});
 const useStyles = (theme) => ({
     cardGrid: {
       paddingTop: theme.spacing(8),
@@ -51,7 +46,7 @@ const useStyles = (theme) => ({
                     <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[latitude, longitude]}/>
+                    <Marker position={[latitude, longitude]} icon={ iconVisitor }/>
                 
                 </Map>
             );

@@ -1,13 +1,19 @@
 import L from 'leaflet';
 
-const iconPerson = new L.Icon({
-    iconUrl: require('../images/user.png').default,
-    iconAnchor: null,
-    popupAnchor: null,
+const iconVisitor = new L.Icon({
+    iconUrl: require('../images/Visitors.png').default,
     shadowUrl: null,
     shadowSize: null,
     shadowAnchor: null,
-    iconSize: new L.Point(27, 28)
+    iconSize: new L.Point(38, 38),
 });
 
-export { iconPerson };
+const iconMarket = new L.Icon({
+    iconUrl: require('../images/Market.png').default,
+    shadowUrl: null,
+    shadowSize: null,
+    shadowAnchor: null,
+    iconSize: new L.Point(38, 38)
+});
+
+export { iconVisitor, iconMarket };

@@ -2,32 +2,28 @@ import React, { Component } from 'react';
 import { Map, TileLayer, Polyline, Popup} from 'react-leaflet';
 import { DriftMarker } from "leaflet-drift-marker";
 import userService from "../services/userService";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Card from "./card";
 import Moment from "moment";
-import Fab from '@material-ui/core/Fab';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import {iconVisitor} from "./icon";
+import FabBackButton from './fabBackButton';
  
 class LeafletDriftMarker extends Component {
     index = 0;
     _isMounted = false;
     constructor(props) {
       super(props);
+      this.state = {
+        isLoading: true,
+        points: '',
+        deviceInfo:'', 
+        pointInfo: {lat:'', lng:'', speed:'', time:''}
+      };
       this.date ={};
     if(this.props.location.state){
       const {date} = this.props.location.state;
       this.date = new Date(date).toLocaleDateString('fa-IR');
     }
-      this.state = {
-        isLoading: true,
-        points: '',
-        deviceInfo:'', 
-        pointInfo: {lat:'', lng:'', speed:'', time:''},
-        date:this.date
-      };
-      
     }
     
  
@@ -38,6 +34,10 @@ class LeafletDriftMarker extends Component {
           const data = response.data;
           if (data !== null && data.deviceInfo !== null) {
             this.setState({ deviceInfo: data.deviceInfo});
+            if(this.props.location.state){
+              const {date} = this.props.location.state;
+              this.date = new Date(date).toLocaleDateString('fa-IR');
+            }
           }
           else{
             this.props.history.push(`/notFound`);
@@ -76,8 +76,10 @@ class LeafletDriftMarker extends Component {
               
               if (data !== null && data.deviceInfo !==null) {
                 this.setState({ deviceInfo: data.deviceInfo});
-                const {date} = this.props.location.state;
-                this.setState({date:new Date(date).toLocaleDateString('fa-IR')});
+                if(this.props.location.state){
+                  const {date} = this.props.location.state;
+                  this.date = new Date(date).toLocaleDateString('fa-IR');
+                }
               }
               else{
                 this.props.history.push(`/notFound`);
@@ -140,12 +142,8 @@ class LeafletDriftMarker extends Component {
         const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نام و نام خانوادگی";
         return (
         <React.Fragment>
-          <Fab color="primary" aria-label="add" style={{zIndex:"1", bottom: "0",
-            position: "absolute"}} onClick={()=>this.handleBackToList()}>
-               <ArrowBackIcon />
-          </Fab>
-        
-          <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.state.date}/>
+          <FabBackButton onClick={this.handleBackToList}/>
+          <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.date}/>
           <Typography variant="body2" color="textSecondary" component="p" align="right" 
             style={{fontFamily:"Vazir", fontSize:"20px", backgroundColor:"white" , width:"fit-content", 
             right:"5px", position:"absolute", marginTop:"50px"}}>
@@ -172,7 +170,8 @@ class LeafletDriftMarker extends Component {
                 // if position changes, marker will drift its way to new position
                 position={[this.state.pointInfo.lat, this.state.pointInfo.lng]}
                 // time in ms that marker will take to reach its destination
-                duration={1000}>
+                duration={1000}
+                icon={iconVisitor}>
                 <Popup>
                 <Typography align="right" style={{fontFamily:"Vazir"}}>
                     سرعت: 

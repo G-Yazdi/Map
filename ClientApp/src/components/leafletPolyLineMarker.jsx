@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Polyline, Marker} from 'react-leaflet';
 import userService from "../services/userService";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Fab from '@material-ui/core/Fab';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Card from "./card";
+import {iconVisitor} from "./icon";
+import FabBackButton from './fabBackButton';
 
 
 class LeafletPolyLineMarker extends Component {
@@ -93,10 +91,7 @@ class LeafletPolyLineMarker extends Component {
             const length = this.state.points.length;
             const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نام و نام خانوادگی";
             return<React.Fragment>
-              <Fab color="primary" aria-label="add" style={{zIndex:"1", bottom: "0",
-            position: "absolute"}} onClick={()=>this.handleBackToList()}>
-               <ArrowBackIcon />
-          </Fab>
+              <FabBackButton onClick={this.handleBackToList}/>
                 
               <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.state.date}/>
              <Map 
@@ -110,7 +105,7 @@ class LeafletPolyLineMarker extends Component {
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[this.state.points[length - 1].latitude, this.state.points[length - 1].longitude]}/>
+                    <Marker position={[this.state.points[length - 1].latitude, this.state.points[length - 1].longitude]} icon={ iconVisitor }/>
                     {this.state.points.map((item, index) => {
                         let prevItem = index > 0 ? this.state.points[index - 1] : item;
                         return <Polyline key={index} positions={[
