@@ -71,8 +71,7 @@ export default function SearchInput(props) {
               next: "next",
               prev: "prev",
               title: "title", fontFamily:'Vazir'}} style={{fontFamily:'Vazir'}}
-              value={props.date !== '' ? props.date: props.defaultDate}
-              defaultValue={props.defaultDate}
+              value={props.date}
               onChange={(value)=>onDataChange(value)}/>
             
             <IconButton style={{color:"rgba(255, 255, 255, 0.54)"}} aria-label="search" onClick={()=>props.onClickSearch()}>

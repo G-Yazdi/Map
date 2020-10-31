@@ -28,16 +28,16 @@ class LeafletDriftMarker extends Component {
     
  
     async componentDidMount() {
+      console.log("l1")
       this._isMounted = true;
       const {date, deviceId} = this.props.match.params;
       await userService.getBrowsedRoute(deviceId, date).then(response => {
           const data = response.data;
+          console.log("l1.1")
           if (data !== null && data.deviceInfo !== null) {
+            console.log("l1.2", this.props)
             this.setState({ deviceInfo: data.deviceInfo});
-            if(this.props.location.state){
-              const {date} = this.props.location.state;
-              this.date = new Date(date).toLocaleDateString('fa-IR');
-            }
+            this.date = new Date(date).toLocaleDateString('fa-IR');
           }
           else{
             this.props.history.push(`/notFound`);
@@ -76,10 +76,7 @@ class LeafletDriftMarker extends Component {
               
               if (data !== null && data.deviceInfo !==null) {
                 this.setState({ deviceInfo: data.deviceInfo});
-                if(this.props.location.state){
-                  const {date} = this.props.location.state;
-                  this.date = new Date(date).toLocaleDateString('fa-IR');
-                }
+                this.date = new Date(date).toLocaleDateString('fa-IR');
               }
               else{
                 this.props.history.push(`/notFound`);

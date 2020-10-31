@@ -30,6 +30,7 @@ class LeafletPolyLineMarker extends Component {
           const data = response.data;
           if (data !== null && data.deviceInfo !== null) {
             this.setState({ deviceInfo: data.deviceInfo});
+            this.setState({ date: new Date(date).toLocaleDateString('fa-IR')});
           }
           else{
             this.props.history.push(`/notFound`);
@@ -59,7 +60,6 @@ class LeafletPolyLineMarker extends Component {
             
             if (data !== null && data.deviceInfo !==null) {
               this.setState({ deviceInfo: data.deviceInfo});
-              const {date} = this.props.location.state;
               this.setState({ date: new Date(date).toLocaleDateString('fa-IR')});
             }
             else{
