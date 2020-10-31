@@ -18,6 +18,7 @@ const useStyles = makeStyles({
 });
 export default function OutlinedCard(props) {
   const classes = useStyles();
+  console.log("propsssss", props)
 
   return (
     <Card className={classes.root} style={{

@@ -10,6 +10,7 @@ import SearchInput from "./components/searchInput";
 import MonitoringButton from "./components/monitoringButton";
 import Moment from "moment-jalali";
 import Monitoring from './components/monitoring';
+import FabBackButton from './components/fabBackButton';
 
 
 const getParamsOfLeafletDriftMarkerPath = pathname => {
@@ -20,10 +21,12 @@ const getParamsOfLeafletDriftMarkerPath = pathname => {
 };
 const getParamsOfLeafletPolyLineMarkerPath = pathname => {
   const matchProfile = matchPath(pathname, {
-    path: `/pointList/:deviceId/browsedRoute/:date`,
+    path: `/pointList/:deviceId/traveledDistance/:date`,
   });
   return (matchProfile && matchProfile.params) || {};
 };
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -34,28 +37,47 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("1", this.props.location)
+    console.log("componentDidMount1", this.props.location)
     const { pathname } = this.props.location;
-    const currentParams = getParams(pathname);
+    let currentParams = null;
+    if(pathname.includes("browsedRoute")){
+      currentParams = getParamsOfLeafletDriftMarkerPath(pathname);
+    }
+    else if(pathname.includes("traveledDistance")){
+      currentParams = getParamsOfLeafletPolyLineMarkerPath(pathname);
+    }
+    
     if(currentParams){
-      console.log("1.1", currentParams)
+      console.log("componentDidMount1.1", currentParams)
       const {date, deviceId} = currentParams;
-      console.log("1.1.1", date)
+      console.log("componentDidMount1.1.1", date)
       let formateDate = date.replace(/\-/g, '/');
-      console.log("formatedDate:", formateDate)
+      console.log("componentDidMountformatedDate:", formateDate)
       this.setState({date: new Moment(formateDate), deviceId});  
     }
      
   }
 
   componentDidUpdate(prevProps) {
-    console.log("2")
-    if(this.props.location.state){
-      console.log("2.2")
-      if(this.props.location.state !== prevProps.location.state) {
-        const {date, deviceId} = this.props.location.state;
+    console.log("componentDidUpdate2")
+    const { pathname } = this.props.location;
+    let currentParams = null;
+    if(this.props.location !== prevProps.location) {
+
+      if(pathname.includes("browsedRoute")){
+        currentParams = getParamsOfLeafletDriftMarkerPath(pathname);
+      }
+      else if(pathname.includes("traveledDistance")){
+        currentParams = getParamsOfLeafletPolyLineMarkerPath(pathname);
+      }
+    
+      if(currentParams){
+        console.log("componentDidUpdate1.1", currentParams)
+        const {date, deviceId} = currentParams;
+        console.log("componentDidUpdate1.1.1", date)
         let formateDate = date.replace(/\-/g, '/');
-        this.setState({date: new Moment(formateDate), deviceId});
+        console.log("componentDidUpdateformatedDate:", formateDate)
+        this.setState({date: new Moment(formateDate), deviceId});  
       }
     }
   }
@@ -64,18 +86,13 @@ class App extends Component {
     console.log("3")
     let date = this.state.date._d;
     if(!date) return;
-      date = new Date(date.toString().slice(0, 28)).toISOString()
-      date = date.slice(0,10)
+    date = new Date(date.toString().slice(0, 28)).toISOString()
+    date = date.slice(0,10);
     if(this.props.location.pathname.includes("browsedRoute")){
-      
-      this.props.history.push(
-        {pathname:`/pointList/${this.state.deviceId}/browsedRoute/${date}`, 
-        state: { date: date, deviceId: this.state.deviceId}});
+      this.props.history.push(`/pointList/${this.state.deviceId}/browsedRoute/${date}`);
     }
     else{
-      this.props.history.push(
-        {pathname:`/pointList/${this.state.deviceId}/traveledDistance/${date}`, 
-        state: { date: date, deviceId: this.state.deviceId}});
+      this.props.history.push(`/pointList/${this.state.deviceId}/traveledDistance/${date}`);
     }
 
   };
@@ -83,11 +100,18 @@ class App extends Component {
   handleChange = (value) => {
     this.setState({date: value});
   };
+  handleBackToList = () => {
+    this.props.history.replace("/");
+  };
   render(){
     console.log("4", this.props)
     const path = this.props.location.pathname;
 
     let navComponent = '';
+    let backButton = '';
+    if(path !=="/pointList"){
+      backButton = <FabBackButton onClick={this.handleBackToList}/>;
+    }
     if(path === "/pointList"){
       navComponent = <Link style={{marginTop: "-30px"}} to= "/monitoring">
         <MonitoringButton/>
@@ -105,7 +129,7 @@ class App extends Component {
       <NavBar>
         {navComponent}
       </NavBar>
-      
+      {backButton}
     <Switch>
       <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>
       <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={LeafletPolyLineMarker}/>

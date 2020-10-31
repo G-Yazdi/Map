@@ -6,41 +6,35 @@ import Typography from "@material-ui/core/Typography";
 import Card from "./card";
 import Moment from "moment";
 import {iconVisitor} from "./icon";
-import FabBackButton from './fabBackButton';
  
 class LeafletDriftMarker extends Component {
     index = 0;
     _isMounted = false;
     constructor(props) {
       super(props);
+      console.log("driftconstructor")
       this.state = {
         isLoading: true,
         points: '',
         deviceInfo:'', 
-        pointInfo: {lat:'', lng:'', speed:'', time:''}
+        pointInfo: {lat:'', lng:'', speed:'', time:''},
+        date:''
       };
-      this.date ={};
-    if(this.props.location.state){
-      const {date} = this.props.location.state;
-      this.date = new Date(date).toLocaleDateString('fa-IR');
-    }
     }
     
  
     async componentDidMount() {
-      console.log("l1")
+      console.log("driftcomponentDidMount1")
       this._isMounted = true;
       const {date, deviceId} = this.props.match.params;
       await userService.getBrowsedRoute(deviceId, date).then(response => {
           const data = response.data;
-          console.log("l1.1")
           if (data !== null && data.deviceInfo !== null) {
-            console.log("l1.2", this.props)
-            this.setState({ deviceInfo: data.deviceInfo});
-            this.date = new Date(date).toLocaleDateString('fa-IR');
+            this.setState({ deviceInfo: data.deviceInfo, date: new Date(date).toLocaleDateString('fa-IR')});
           }
           else{
-            this.props.history.push(`/notFound`);
+            this.props.history.replace({pathname:`/notFound`, 
+              state: { errorMessage: "اطلاعات مورد نظر یافت نشد"}} );
             return;
           }
           if(data.browsedPoints !== null && data.browsedPoints.length > 0 && this._isMounted){
@@ -49,13 +43,15 @@ class LeafletDriftMarker extends Component {
             this.setState({ isLoading:false});
           }
           else{
-            this.props.history.replace(`/notFound`);
+            this.props.history.replace({pathname:`/notFound`, 
+              state: { errorMessage: "اطلاعات مورد نظر یافت نشد"}} );
             return;
           }
       })
       .catch(error => {
           console.log("error", error);
-          this.props.history.push(`/notFound`);
+          this.props.history.replace({pathname:`/notFound`, 
+            state: { errorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد"}} );
           return;
       });
       
@@ -75,11 +71,11 @@ class LeafletDriftMarker extends Component {
               const data = response.data;
               
               if (data !== null && data.deviceInfo !==null) {
-                this.setState({ deviceInfo: data.deviceInfo});
-                this.date = new Date(date).toLocaleDateString('fa-IR');
+                this.setState({ deviceInfo: data.deviceInfo, date: new Date(date).toLocaleDateString('fa-IR')});
               }
               else{
-                this.props.history.push(`/notFound`);
+                this.props.history.push({pathname:`/notFound`, 
+                  state: { errorMessage: "اطلاعات مورد نظر یافت نشد"}} );
                 return;
               }
               if(data.browsedPoints !== null && data.browsedPoints.length > 0){
@@ -89,13 +85,15 @@ class LeafletDriftMarker extends Component {
                 this.setState({ isLoading:false});
               }
               else{
-                this.props.history.replace(`/notFound`);
+                this.props.history.replace({pathname:`/notFound`, 
+                  state: { errorMessage: "اطلاعات مورد نظر یافت نشد"}} );
                 return;
               }
           })
           .catch(error => {
             console.log("error", error);
-            this.props.history.push(`/notFound`);
+            this.props.history.replace({pathname:`/notFound`, 
+              state: { errorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد"}} );
             return;
           });
           if(this.state.points !==''){
@@ -129,23 +127,17 @@ class LeafletDriftMarker extends Component {
           };
         }
       }
-      handleBackToList = () => {
-        this.props.history.replace("/");
-      };
+      
     render() {
+      console.log("driftRender")
       
       if (!this.state.isLoading) {
         
         const fullName = this.state.deviceInfo.nickName !=="N/A" ? this.state.deviceInfo.nickname : "نام و نام خانوادگی";
         return (
         <React.Fragment>
-          <FabBackButton onClick={this.handleBackToList}/>
-          <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.date}/>
-          <Typography variant="body2" color="textSecondary" component="p" align="right" 
-            style={{fontFamily:"Vazir", fontSize:"20px", backgroundColor:"white" , width:"fit-content", 
-            right:"5px", position:"absolute", marginTop:"50px"}}>
-              {this.state.date}
-          </Typography>
+          <Card fullName={fullName} imei={this.state.deviceInfo.imei} simNumber={this.state.deviceInfo.simNumber} date={this.state.date}/>
+          
           <Map 
               center={[this.state.points[0].latitude, this.state.points[0].longitude]} zoom={15}
               style={{
@@ -188,7 +180,7 @@ class LeafletDriftMarker extends Component {
          return (
           <React.Fragment>
               <div className="alert text-center  mt-5 rtl" role="alert">
-                <h5>Loading...</h5>
+                <h5 style={{position: "absolute", top: "70px"}}>Loading...</h5>
               </div>
             </React.Fragment>
           ); 

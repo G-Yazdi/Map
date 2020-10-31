@@ -1,9 +1,14 @@
 import React from 'react';
 
-const NotFound = () =>
-  <div style={{marginTop: "64px"}}>
-    <h3>404 page not found</h3>
-    <p>We are sorry but the page you are looking for does not exist.</p>
+const NotFound = ({errorMessage}) =>
+
+  <div style={{marginTop: "84px", textAlign: "end", marginRight: "19px",
+  textAlign: "end",
+  display: "inline-block",
+  position: "absolute",
+  right: "275px"}}>
+    <h3>خطا</h3>
+    <p>{errorMessage}</p>
   </div>
 
 export default NotFound;
