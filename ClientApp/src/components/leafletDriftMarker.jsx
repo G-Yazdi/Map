@@ -169,7 +169,7 @@ class LeafletDriftMarker extends Component {
                 // time in ms that marker will take to reach its destination
                 duration={1000}
                 icon={iconVisitor}>
-                <Popup>
+                <Popup className="leaflet">
                 <Typography align="right" style={{fontFamily:"Vazir"}}>
                     سرعت: 
                     {` ${this.state.pointInfo.speed}` }

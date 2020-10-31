@@ -46,16 +46,30 @@ body{
 .MuiTypography-h5{
   font-size: 20px !important;
 }
-.tether-element{
-  transform: translateX(1335.53px) translateY(50px) translateZ(0px) !important;
+.tether-element, .tether-element-attached-top, .tether-element-attached-center, .tether-target-attached-bottom, .tether-target-attached-center, .tether-enabled{
+ 
+  transform: none !important;
   direction: rtl;
+  float: right;
+  right: 0 !important;
+  left: unset !important;
+  top: 70px !important;
+}
+
+.leaflet{
+  opacity: 1;
+    transform: translate3d(349px, 152px, 0px);
+    bottom: -7px;
+    left: -46px;
+    position: absolute;
+    text-align: center;
+    margin-bottom: 58px !important
 }
 .MuiCardHeader-title{
   line-height: 28px;
 }
 .calendarContainer{
   width: 241px !important;
-  right:0
 }
 .leaflet-marker-icon{
   margin-top: -38px !important

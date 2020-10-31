@@ -31,7 +31,7 @@ export default function Cluster(props) {
             if(item.locationLatitude && item.locationLongitude){
                 console.log("item", item);
               return <Marker key={item.deviceId} position={[item.locationLatitude, item.locationLongitude]} icon={ iconVisitor }>
-                      <Popup>
+                      <Popup className="leaflet">
                         <Typography align="right" style={{fontFamily:"Vazir", fontSize: "13px",
                               lineHeight: "30px"}}>
                               نام: &nbsp; 
