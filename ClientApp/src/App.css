@@ -48,6 +48,7 @@ body{
 }
 .tether-element{
   transform: translateX(1335.53px) translateY(50px) translateZ(0px) !important;
+  direction: rtl;
 }
 .MuiCardHeader-title{
   line-height: 28px;
