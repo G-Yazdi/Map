@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import "./App.css";
-import {Route, Switch, Redirect, withRouter, Link } from "react-router-dom";
+import {Route, Switch, Redirect, withRouter, Link, matchPath } from "react-router-dom";
 import NavBar from "./components/navBar";
 import PointList from "./components/pointList";
 import LeafletDriftMarker from "./components/leafletDriftMarker";
@@ -12,6 +12,18 @@ import Moment from "moment-jalali";
 import Monitoring from './components/monitoring';
 
 
+const getParamsOfLeafletDriftMarkerPath = pathname => {
+  const matchProfile = matchPath(pathname, {
+    path: `/pointList/:deviceId/browsedRoute/:date`,
+  });
+  return (matchProfile && matchProfile.params) || {};
+};
+const getParamsOfLeafletPolyLineMarkerPath = pathname => {
+  const matchProfile = matchPath(pathname, {
+    path: `/pointList/:deviceId/browsedRoute/:date`,
+  });
+  return (matchProfile && matchProfile.params) || {};
+};
 class App extends Component {
   constructor(props) {
     super(props);
@@ -22,10 +34,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("1")
-    if(this.props.location.state){
-      console.log("1.1")
-      const {date, deviceId} = this.props.location.state;
+    console.log("1", this.props.location)
+    const { pathname } = this.props.location;
+    const currentParams = getParams(pathname);
+    if(currentParams){
+      console.log("1.1", currentParams)
+      const {date, deviceId} = currentParams;
+      console.log("1.1.1", date)
       let formateDate = date.replace(/\-/g, '/');
       console.log("formatedDate:", formateDate)
       this.setState({date: new Moment(formateDate), deviceId});  
@@ -71,12 +86,6 @@ class App extends Component {
   render(){
     console.log("4", this.props)
     const path = this.props.location.pathname;
-    // let date1 ={};
-    // if(this.props.location.state){
-    //   const {date} = this.props.location.state;
-    //   let formateDate = date.replace(/\-/g, '/');
-    //   date1 = formateDate;
-    // }
 
     let navComponent = '';
     if(path === "/pointList"){
