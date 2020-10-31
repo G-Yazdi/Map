@@ -48,7 +48,7 @@ export default function Cluster(props) {
         <MarkerClusterGroup>
             {customers.map(item=>
             <Marker key={item.id} position={[item.locationLatitude, item.locationLongitude]} icon={ iconMarket }>
-                <Popup>
+                <Popup className="leaflet">
                   <Typography align="right" style={{fontFamily:"Vazir", fontSize: "13px",
                         lineHeight: "30px"}}>
                         نام: &nbsp; 
