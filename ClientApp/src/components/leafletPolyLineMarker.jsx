@@ -3,10 +3,11 @@ import { Map, TileLayer, Polyline, Marker} from 'react-leaflet';
 import userService from "../services/userService";
 import Card from "./card";
 import {iconVisitor} from "./icon";
-import NotFound from "./notFound";
+import ErrorPage from "./errorPage";
 
 
 class LeafletPolyLineMarker extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -16,78 +17,101 @@ class LeafletPolyLineMarker extends Component {
       date:'',
       mapErrorMessage: '',
       deviceErrorMessage: '',
-      serverErrorMessage:''
+      serverErrorMessage: ''
+
     };
     
   }
     
       
     async componentDidMount() {
+      this._isMounted = true;
       const {date, deviceId} = this.props.match.params;
         await userService.getBrowsedRoute(deviceId, date).then(response => {
           const data = response.data;
           if (data &&  data.deviceInfo) {
-            this.setState({ deviceInfo: data.deviceInfo});
-            this.setState({ date: new Date(date).toLocaleDateString('fa-IR')});
-            console.log("heyyyyyyyyyyyyyyyyyyyy", data.deviceInfo)
+            if(this._isMounted)
+            {
+              this.setState({ deviceInfo: data.deviceInfo});
+              this.setState({ date: new Date(date).toLocaleDateString('fa-IR')});
+            }
           }
           else{
-            this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"});
+            if(this._isMounted)
+              this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler);
             return;
           }
           if(data.browsedPoints !== null && data.browsedPoints.length > 0){
-            this.setState({ points: data.browsedPoints});
+            if(this._isMounted)
+              this.setState({ points: data.browsedPoints});
           }
           else{
-            this.setState({mapErrorMessage: "اطلاعات مسافت پیموده شده در تاریخ مورد نظر موجود نمی باشد"});
+            if(this._isMounted)
+              this.setState({mapErrorMessage: "اطلاعات مسافت پیموده شده در تاریخ مورد نظر موجود نمی باشد"});
             return;
           }
       })
       .catch(error => {
         console.log("error", error);
-        this.props.history.replace({pathname:`/notFound`, 
-          props: { errorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد"}} );
+        if(this._isMounted)
+          this.setState({serverErrorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد"});
         return;
       });
-      this.setState({ isLoading:false});
+      if(this._isMounted)
+        this.setState({ isLoading:false});
     }
     async componentDidUpdate(prevProps) {
+      this._isMounted = true;
       if(this.props.match.params.date !== prevProps.match.params.date) {
         const {date, deviceId} = this.props.match.params;
-
-        this.setState({isLoading: true, mapErrorMessage: '', deviceErrorMessage: ''});
+        if(this._isMounted)
+          this.setState({isLoading: true, mapErrorMessage: '', deviceErrorMessage: '', serverErrorMessage:''});
 
         await userService.getBrowsedRoute(deviceId, date).then(response => {
             const data = response.data;
             
             if (data && data.deviceInfo) {
-              this.setState({ deviceInfo: data.deviceInfo});
-              this.setState({ date: new Date(date).toLocaleDateString('fa-IR')});
+              if(this._isMounted)
+              {
+                this.setState({ deviceInfo: data.deviceInfo});
+                this.setState({ date: new Date(date).toLocaleDateString('fa-IR')});
+              }
             }
             else{
-              this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"});
+              if(this._isMounted)
+                this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler);
               return;
             }
-            if(data.browsedPoints !== null && data.browsedPoints.length > 0){
-              this.setState({ points: data.browsedPoints});
+            if(data.browsedPoints && data.browsedPoints.length > 0){
+              if(this._isMounted)
+                this.setState({ points: data.browsedPoints});
             }
             else{
-              this.setState({mapErrorMessage: "اطلاعات مسافت پیموده شده در تاریخ مورد نظر موجود نمی باشد"});
+              if(this._isMounted)
+                this.setState({mapErrorMessage: "اطلاعات مسافت پیموده شده در تاریخ مورد نظر موجود نمی باشد"});
               return;
             }
         })
         .catch(error => {
           console.log("error", error);
-          this.props.history.replace({pathname:`/notFound`, 
-            props: { errorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد"}} );
+          if(this._isMounted)
+            this.setState({serverErrorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد"});
           return;
         });
-        this.setState({ isLoading:false});
+        if(this._isMounted)
+          this.setState({ isLoading:false});
       }
+    }
+
+    componentWillUnmount() {
+      this._isMounted = false;
     }
 
     render() {
       if(!this.state.isLoading){
+        if(this.state.serverErrorMessage){
+          return <ErrorPage errorMessage={this.state.serverErrorMessage}/>
+        }
             let cardComponent = null;
             let mapComponent = null;
             if(!this.state.deviceErrorMessage){
@@ -120,11 +144,11 @@ class LeafletPolyLineMarker extends Component {
                   </Map>
               }
               else{
-                mapComponent = <NotFound errorMessage={this.state.mapErrorMessage}/>
+                mapComponent = <ErrorPage errorMessage={this.state.mapErrorMessage}/>
               }
             }
             else{
-              cardComponent = <NotFound errorMessage={this.state.deviceErrorMessage}/>
+              cardComponent = <ErrorPage errorMessage={this.state.deviceErrorMessage}/>
             }
             return<React.Fragment>
               {cardComponent}

@@ -55,7 +55,6 @@ namespace SampleReactApp.Controllers
         [HttpGet]
         public async Task<DeviceBrowsedPoints> GetBrowsedRoute(int deviceId, DateTime locationTime)
         {
-            throw new Exception();
             _caller = new ApiCaller();
             _configuration = new WebApiConfiguration();
             _mapService = new MapService(_caller, _configuration);

@@ -5,12 +5,12 @@ import NavBar from "./components/navBar";
 import PointList from "./components/pointList";
 import LeafletDriftMarker from "./components/leafletDriftMarker";
 import LeafletPolyLineMarker from "./components/leafletPolyLineMarker";
-import NotFound from "./components/notFound";
 import SearchInput from "./components/searchInput";
 import MonitoringButton from "./components/monitoringButton";
 import Moment from "moment-jalali";
 import Monitoring from './components/monitoring';
 import FabBackButton from './components/fabBackButton';
+import NotFound from './components/notFound';
 
 
 const getParamsOfLeafletDriftMarkerPath = pathname => {
@@ -28,15 +28,19 @@ const getParamsOfLeafletPolyLineMarkerPath = pathname => {
 
 
 class App extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.state ={
       date:new Moment(),
-      deviceId:''
+      deviceId:'',
+      showSearchInput: true,
+      isLoading: true
     }
   }
 
   componentDidMount() {
+    this._isMounted = true;
     console.log("componentDidMount1", this.props.location)
     const { pathname } = this.props.location;
     let currentParams = null;
@@ -53,12 +57,14 @@ class App extends Component {
       console.log("componentDidMount1.1.1", date)
       let formateDate = date.replace(/\-/g, '/');
       console.log("componentDidMountformatedDate:", formateDate)
-      this.setState({date: new Moment(formateDate), deviceId});  
+      if(this._isMounted)
+        this.setState({date: new Moment(formateDate), deviceId});  
     }
      
   }
 
   componentDidUpdate(prevProps) {
+    this._isMounted = true;
     console.log("componentDidUpdate2")
     const { pathname } = this.props.location;
     let currentParams = null;
@@ -77,9 +83,14 @@ class App extends Component {
         console.log("componentDidUpdate1.1.1", date)
         let formateDate = date.replace(/\-/g, '/');
         console.log("componentDidUpdateformatedDate:", formateDate)
-        this.setState({date: new Moment(formateDate), deviceId});  
+        if(this._isMounted)
+          this.setState({date: new Moment(formateDate), deviceId});  
       }
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   handleSearch = () => {
@@ -97,8 +108,15 @@ class App extends Component {
 
   };
 
+  handler() {
+    if(this._isMounted)
+      this.setState({
+        showSearchInput: false, isLoading: false
+      })
+  }
   handleChange = (value) => {
-    this.setState({date: value});
+    if(this._isMounted)
+      this.setState({date: value});
   };
   handleBackToList = () => {
     this.props.history.replace("/");
@@ -117,9 +135,9 @@ class App extends Component {
         <MonitoringButton/>
       </Link>
     }
-    else if(path.includes("browsedRoute") || path.includes("traveledDistance")){
+    else if(this.state.showSearchInput && !this.state.isLoading && (path.includes("browsedRoute") || path.includes("traveledDistance"))){
       navComponent = <SearchInput onClickSearch={this.handleSearch} 
-                    onChange={this.handleChange} date={this.state.date}/>;
+                      onChange={this.handleChange} date={this.state.date}/>;
     }
 
 
@@ -131,11 +149,11 @@ class App extends Component {
       </NavBar>
       {backButton}
     <Switch>
-      <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>
-      <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={LeafletPolyLineMarker}/>
+      <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={(props) => <LeafletDriftMarker {...props} handler={this.handler} />}/>
+      <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={(props) => <LeafletPolyLineMarker {...props} handler={this.handler} />}/>
       <Route path="/monitoring" exact component={Monitoring}/>
       <Route path="/pointList" exact component={PointList}/>
-      <Route path="/notFound"  component={NotFound}/>
+      <Route path="/notFound" exact component={NotFound}/>
       <Redirect from="/" exact  to="/pointList"/>
       <Redirect to="/notFound"/>
     </Switch>
