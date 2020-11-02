@@ -76,7 +76,7 @@ class LeafletDriftMarker extends Component {
           this._hasPoints = false;
           this.index = 0;
           const {date, deviceId} = this.props.match.params;
-          this.setState({isLoading: true, mapErrorMessage: '', deviceErrorMessage: '', serverErrorMessage: ''});
+          this.setState({isLoading: true, mapErrorMessage: '', deviceErrorMessage: '', serverErrorMessage: '', points:''});
           await userService.getBrowsedRoute(deviceId, date).then(response => {
               const data = response.data;
               
