@@ -40,7 +40,8 @@ class LeafletDriftMarker extends Component {
           }
           else{
             if(this._isMounted)
-              this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler);
+              this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"});
+              // this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler());
             
             return;
           }
@@ -85,7 +86,8 @@ class LeafletDriftMarker extends Component {
               }
               else{
                 if(this._isMounted)
-                  this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler);
+                  this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"});
+                  // this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler());
               return;
               }
               if(data.browsedPoints && data.browsedPoints.length > 0){

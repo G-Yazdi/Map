@@ -25,6 +25,7 @@ class LeafletPolyLineMarker extends Component {
     
       
     async componentDidMount() {
+      console.log("llllllllllllllllllllll")
       this._isMounted = true;
       const {date, deviceId} = this.props.match.params;
         await userService.getBrowsedRoute(deviceId, date).then(response => {
@@ -38,7 +39,8 @@ class LeafletPolyLineMarker extends Component {
           }
           else{
             if(this._isMounted)
-              this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler);
+              this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"});
+              // this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler());
             return;
           }
           if(data.browsedPoints !== null && data.browsedPoints.length > 0){
@@ -79,7 +81,8 @@ class LeafletPolyLineMarker extends Component {
             }
             else{
               if(this._isMounted)
-                this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler);
+                this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"});
+                // this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler());
               return;
             }
             if(data.browsedPoints && data.browsedPoints.length > 0){
@@ -104,6 +107,7 @@ class LeafletPolyLineMarker extends Component {
     }
 
     componentWillUnmount() {
+      console.log("componentWillUnmountpoly")
       this._isMounted = false;
     }
 

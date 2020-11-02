@@ -34,8 +34,7 @@ class App extends Component {
     this.state ={
       date:new Moment(),
       deviceId:'',
-      showSearchInput: true,
-      isLoading: true
+      showSearchInput: true
     }
   }
 
@@ -69,6 +68,7 @@ class App extends Component {
     const { pathname } = this.props.location;
     let currentParams = null;
     if(this.props.location !== prevProps.location) {
+      console.log("componentDidUpdate2.1")
 
       if(pathname.includes("browsedRoute")){
         currentParams = getParamsOfLeafletDriftMarkerPath(pathname);
@@ -108,11 +108,12 @@ class App extends Component {
 
   };
 
-  handler() {
-    if(this._isMounted)
-      this.setState({
-        showSearchInput: false, isLoading: false
-      })
+  handler = () => {
+    console.log("yesssssssssss")
+    if(this._isMounted && this.state.showSearchInput)
+      {this.setState({
+        showSearchInput: false
+      })}
   }
   handleChange = (value) => {
     if(this._isMounted)
@@ -135,7 +136,7 @@ class App extends Component {
         <MonitoringButton/>
       </Link>
     }
-    else if(this.state.showSearchInput && !this.state.isLoading && (path.includes("browsedRoute") || path.includes("traveledDistance"))){
+    else if((path.includes("browsedRoute") || path.includes("traveledDistance"))){
       navComponent = <SearchInput onClickSearch={this.handleSearch} 
                       onChange={this.handleChange} date={this.state.date}/>;
     }
@@ -149,8 +150,8 @@ class App extends Component {
       </NavBar>
       {backButton}
     <Switch>
-      <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={(props) => <LeafletDriftMarker {...props} handler={this.handler} />}/>
-      <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={(props) => <LeafletPolyLineMarker {...props} handler={this.handler} />}/>
+      <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>
+      <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={LeafletPolyLineMarker}/>
       <Route path="/monitoring" exact component={Monitoring}/>
       <Route path="/pointList" exact component={PointList}/>
       <Route path="/notFound" exact component={NotFound}/>
