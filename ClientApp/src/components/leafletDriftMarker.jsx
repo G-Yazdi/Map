@@ -11,7 +11,6 @@ import {iconVisitor} from "./icon";
 class LeafletDriftMarker extends Component {
     index = 0;
     _isMounted = false;
-    _hasPoints = false;
     constructor(props) {
       super(props);
       console.log("driftconstructor")
@@ -34,90 +33,95 @@ class LeafletDriftMarker extends Component {
       const {date, deviceId} = this.props.match.params;
       await userService.getBrowsedRoute(deviceId, date).then(response => {
           const data = response.data;
+          
           if (data && data.deviceInfo) {
             if(this._isMounted)
               this.setState({ deviceInfo: data.deviceInfo, date: new Date(date).toLocaleDateString('fa-IR')});
           }
           else{
             if(this._isMounted)
-              this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"});
+              this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد", isLoading:false});
               // this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler());
             
             return;
           }
           if(data.browsedPoints !== null && data.browsedPoints.length > 0 && this._isMounted){
-            this._hasPoints = true;
+            // this._hasPoints = true;
             this.setState({ points: data.browsedPoints});
             this.setState(() => ({ pointInfo: this.get_position()}));
+            this.setState({isLoading:false})
           }
           else{
             if(this._isMounted)
-              this.setState({mapErrorMessage: "اطلاعات مسیر طی شده در تاریخ مورد نظر موجود نمی باشد"});
+              this.setState({mapErrorMessage: "اطلاعات مسیر طی شده در تاریخ مورد نظر موجود نمی باشد", isLoading:false});
             return;
           }
+
       })
       .catch(error => {
         console.log("error", error);
         if(this._isMounted)
-          this.setState({serverErrorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد"});
+          this.setState({serverErrorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد", isLoading:false});
         return;
       });
-      if(this._isMounted)
-        this.setState({ isLoading:false});
-      if(this.state.points !==''){
+      if(this.state.points){
         this.repeat();
       }
           
     }
 
      async componentDidUpdate(prevProps) {
+       console.log("[drift] componentDidUpdate")
         if(this.props.match.params.date !== prevProps.match.params.date) {
+          console.log("[drift] componentDidUpdate1")
           this._isMounted = true;
-          this._hasPoints = false;
+          // this._hasPoints = false;
           this.index = 0;
           const {date, deviceId} = this.props.match.params;
-          this.setState({isLoading: true, mapErrorMessage: '', deviceErrorMessage: '', serverErrorMessage: '', points:''});
+          this.setState({isLoading: true});
+          this.setState({mapErrorMessage: '', deviceErrorMessage: '', serverErrorMessage: '', points:''});
           await userService.getBrowsedRoute(deviceId, date).then(response => {
               const data = response.data;
-              
+              console.log("[drift] componentDidUpdate2")
               if (data  && data.deviceInfo ) {
                 if(this._isMounted)
                   this.setState({ deviceInfo: data.deviceInfo, date: new Date(date).toLocaleDateString('fa-IR')});
               }
               else{
                 if(this._isMounted)
-                  this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"});
+                  this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد", isLoading:false});
                   // this.setState({deviceErrorMessage: "اطلاعات دستگاه مورد نظر یافت نشد"}, ()=>this.props.handler());
-              return;
+                return;
               }
               if(data.browsedPoints && data.browsedPoints.length > 0){
                 if(this._isMounted)
                 {
-                  this._hasPoints = true;
+                  // this._hasPoints = true;
                   this.setState({ points: data.browsedPoints});
-                  this.setState(() => ({ latlng: this.get_position()}));
+                  this.setState(() => ({ pointInfo: this.get_position()}));
+                  this.setState({isLoading:false})
                 }
               }
               else{
                 if(this._isMounted)
-                  this.setState({mapErrorMessage: "اطلاعات مسیر طی شده در تاریخ مورد نظر موجود نمی باشد"});
+                  this.setState({mapErrorMessage: "اطلاعات مسیر طی شده در تاریخ مورد نظر موجود نمی باشد", isLoading:false});
               return;
               }
           })
           .catch(error => {
             console.log("error", error);
             if(this._isMounted)
-              this.setState({serverErrorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد"});
+              this.setState({serverErrorMessage: "در حال حاضر امکان برقراری ارتباط با سرور وجود ندارد", isLoading:false});
             return;
         });
-        this.setState({ isLoading:false});
-          if(this.state.points !==''){
+          if(this.state.points){
             this.repeat();
           }
         }
       }
       componentWillUnmount() {
         this._isMounted = false;
+        console.log("driftcomponentWillUnmount")
       }
       repeat = () => {
           if(this.index < this.state.points.length-1){
@@ -132,7 +136,7 @@ class LeafletDriftMarker extends Component {
       };
     
       get_position = () =>{
-        if(this._hasPoints){
+      if(this.state.points){
           return {
             lat: this.state.points[this.index].latitude,
             lng: this.state.points[this.index].longitude,
@@ -143,7 +147,10 @@ class LeafletDriftMarker extends Component {
       }
       
     render() {
-      console.log("driftRender")
+      console.log("driftRender", this.state.isLoading)
+      console.log("dr",this.state.points);
+      console.log("drr",this.state.pointInfo);
+      
       
       if (!this.state.isLoading) {
         if(this.state.serverErrorMessage){
