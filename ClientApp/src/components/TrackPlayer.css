@@ -1,0 +1,35 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+.TrackPlayer {
+  text-align: center;
+  width: 1000px;
+  height: 500px;
+}
+
+.TrackPlayer-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.TrackPlayer-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.TrackPlayer-title {
+  font-size: 1.5em;
+}
+
+.TrackPlayer-intro {
+  font-size: large;
+}
+
+@keyframes TrackPlayer-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
