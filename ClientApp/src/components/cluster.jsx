@@ -9,13 +9,12 @@ export default function Cluster(props) {
   const {customers, devices, onClick} = props;
   return (
     <React.Fragment>
-      <FabBackButton onClick={onClick}/>
       <Map
         className="markercluster-map"
         center={[36.260464, 59.616756]}
-        zoom={12}
+        zoom={10}
         maxZoom={18}
-        style={{height:"100vh",
+        style={{height:"92.5vh",
         position: "absolute",
         top: "65px",
         bottom: 0,
