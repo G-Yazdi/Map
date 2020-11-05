@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SampleReactApp.Models.Response
+namespace Map.Models.Response
 {
 
     public class GeographicalPoint

@@ -1,18 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Map.EndPoints.Service;
+using Map.EndPoints.Service.Interfaces;
+using Map.Models.Response;
 using Microsoft.AspNetCore.Mvc;
-using SampleReactApp.Models;
 using Services.Core.Interfaces;
 using Services.WebApiCaller;
 using Services.WebApiCaller.Configuration;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using Map.EndPoints.Service.Interfaces;
-using SampleReactApp.Models.Response;
 
-namespace SampleReactApp.Controllers
+namespace Map.Controllers
 {
     [ApiController]
     public class MapDataController : ControllerBase

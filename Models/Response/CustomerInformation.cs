@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SampleReactApp.Models.Response
+﻿namespace Map.Models.Response
 {
     public class CustomerInformation
     {
