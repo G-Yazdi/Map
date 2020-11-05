@@ -108,13 +108,13 @@ class App extends Component {
 
   };
 
-  handler = () => {
-    console.log("yesssssssssss")
-    if(this._isMounted && this.state.showSearchInput)
-      {this.setState({
-        showSearchInput: false
-      })}
-  }
+  // handler = () => {
+  //   console.log("yesssssssssss")
+  //   if(this._isMounted && this.state.showSearchInput)
+  //     {this.setState({
+  //       showSearchInput: false
+  //     })}
+  // }
   handleChange = (value) => {
     if(this._isMounted)
       this.setState({date: value});
@@ -144,20 +144,19 @@ class App extends Component {
 
 
     return <React.Fragment>
-
       <NavBar>
         {navComponent}
       </NavBar>
       {backButton}
-    <Switch>
-      <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>
-      <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={LeafletPolyLineMarker}/>
-      <Route path="/monitoring" exact component={Monitoring}/>
-      <Route path="/pointList" exact component={PointList}/>
-      <Route path="/notFound" exact component={NotFound}/>
-      <Redirect from="/" exact  to="/pointList"/>
-      <Redirect to="/notFound"/>
-    </Switch>
+      <Switch>
+        <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>
+        <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={LeafletPolyLineMarker}/>
+        <Route path="/monitoring" exact component={Monitoring}/>
+        <Route path="/pointList" exact component={PointList}/>
+        <Route path="/notFound" exact component={NotFound}/>
+        <Redirect from="/" exact  to="/pointList"/>
+        <Redirect to="/notFound"/>
+      </Switch>
   </React.Fragment>;
   }
 }

@@ -25,7 +25,6 @@ class LeafletPolyLineMarker extends Component {
     
       
     async componentDidMount() {
-      console.log("llllllllllllllllllllll1")
       this._isMounted = true;
       const {date, deviceId} = this.props.match.params;
         await userService.getBrowsedRoute(deviceId, date).then(response => {
@@ -63,7 +62,6 @@ class LeafletPolyLineMarker extends Component {
         this.setState({ isLoading:false});
     }
     async componentDidUpdate(prevProps) {
-      console.log("llllllllllllllllllllll2")
       this._isMounted = true;
       if(this.props.match.params.date !== prevProps.match.params.date) {
         const {date, deviceId} = this.props.match.params;
@@ -108,7 +106,6 @@ class LeafletPolyLineMarker extends Component {
     }
 
     componentWillUnmount() {
-      console.log("componentWillUnmountpoly")
       this._isMounted = false;
     }
 

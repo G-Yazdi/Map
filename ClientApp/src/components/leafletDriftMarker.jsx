@@ -46,7 +46,6 @@ class LeafletDriftMarker extends Component {
             return;
           }
           if(data.browsedPoints !== null && data.browsedPoints.length > 0 && this._isMounted){
-            // this._hasPoints = true;
             this.setState({ points: data.browsedPoints});
             this.setState(() => ({ pointInfo: this.get_position()}));
             this.setState({isLoading:false})
@@ -75,7 +74,6 @@ class LeafletDriftMarker extends Component {
         if(this.props.match.params.date !== prevProps.match.params.date) {
           console.log("[drift] componentDidUpdate1")
           this._isMounted = true;
-          // this._hasPoints = false;
           this.index = 0;
           const {date, deviceId} = this.props.match.params;
           this.setState({isLoading: true});
@@ -96,7 +94,6 @@ class LeafletDriftMarker extends Component {
               if(data.browsedPoints && data.browsedPoints.length > 0){
                 if(this._isMounted)
                 {
-                  // this._hasPoints = true;
                   this.setState({ points: data.browsedPoints});
                   this.setState(() => ({ pointInfo: this.get_position()}));
                   this.setState({isLoading:false})
@@ -147,11 +144,6 @@ class LeafletDriftMarker extends Component {
       }
       
     render() {
-      console.log("driftRender", this.state.isLoading)
-      console.log("dr",this.state.points);
-      console.log("drr",this.state.pointInfo);
-      
-      
       if (!this.state.isLoading) {
         if(this.state.serverErrorMessage){
           return <ErrorPage errorMessage={this.state.serverErrorMessage}/>

@@ -3,10 +3,9 @@ import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import Typography from '@material-ui/core/Typography';
 import {iconVisitor, iconMarket} from "./icon";
-import FabBackButton from './fabBackButton';
 
 export default function Cluster(props) {
-  const {customers, devices, onClick} = props;
+  const {customers, devices} = props;
   return (
     <React.Fragment>
       <Map
