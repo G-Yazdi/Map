@@ -11,6 +11,7 @@ import Moment from "moment-jalali";
 import Monitoring from './components/monitoring';
 import FabBackButton from './components/fabBackButton';
 import NotFound from './components/notFound';
+import TrackPlayer from './components/trackPlayer';
 
 
 const getParamsOfLeafletDriftMarkerPath = pathname => {
@@ -116,6 +117,7 @@ class App extends Component {
   //     })}
   // }
   handleChange = (value) => {
+    console.log("date", value)
     if(this._isMounted)
       this.setState({date: value});
   };
@@ -149,7 +151,7 @@ class App extends Component {
       </NavBar>
       {backButton}
       <Switch>
-        <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={LeafletDriftMarker}/>
+        <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={TrackPlayer}/>
         <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={LeafletPolyLineMarker}/>
         <Route path="/monitoring" exact component={Monitoring}/>
         <Route path="/pointList" exact component={PointList}/>
