@@ -128,10 +128,11 @@ class LeafletPolyLineMarker extends Component {
                 mapComponent = <Map 
                       center={[this.state.points[length - 1].lat, this.state.points[length - 1].lng]} zoom={15}
                       style={{
-                          position: "absolute",
-                          top: "65px",
-                          bottom: 0,
-                          width: "100%", zIndex:"-1"}} 
+                        position: "absolute",
+                        top: "64px",
+                        height: "495px",
+                        zIndex:0
+                      }}
                       >
                       <TileLayer
                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
