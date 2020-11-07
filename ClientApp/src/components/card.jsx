@@ -28,7 +28,8 @@ export default function OutlinedCard(props) {
         right: "16px",
         width: "196px",
         textAlign: "center",
-        marginTop: "74px"}} variant="outlined">
+        marginTop: "74px",
+        zIndex:"1"}} variant="outlined">
       <CardContent>
         <Typography style={{fontFamily:"Vazir"}}  component="p">
             {props.fullName}
