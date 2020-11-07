@@ -126,7 +126,7 @@ class LeafletPolyLineMarker extends Component {
               if(!this.state.mapErrorMessage){
                 const length = this.state.points.length;
                 mapComponent = <Map 
-                      center={[this.state.points[length - 1].latitude, this.state.points[length - 1].longitude]} zoom={15}
+                      center={[this.state.points[length - 1].lat, this.state.points[length - 1].lng]} zoom={15}
                       style={{
                           position: "absolute",
                           top: "65px",
@@ -136,11 +136,11 @@ class LeafletPolyLineMarker extends Component {
                       <TileLayer
                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                       />
-                      <Marker position={[this.state.points[length - 1].latitude, this.state.points[length - 1].longitude]} icon={ iconVisitor }/>
+                      <Marker position={[this.state.points[length - 1].lat, this.state.points[length - 1].lng]} icon={ iconVisitor }/>
                       {this.state.points.map((item, index) => {
                           let prevItem = index > 0 ? this.state.points[index - 1] : item;
                           return <Polyline key={index} positions={[
-                                  [prevItem.latitude, prevItem.longitude], [item.latitude, item.longitude],
+                                  [prevItem.lat, prevItem.lng], [item.lat, item.lng],
                                   ]} color={'red'} />
                       })}
                   </Map>
