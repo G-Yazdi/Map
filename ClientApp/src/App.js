@@ -2,16 +2,16 @@ import React, {Component} from "react";
 import "./App.css";
 import {Route, Switch, Redirect, withRouter, Link, matchPath } from "react-router-dom";
 import NavBar from "./components/navBar";
-import PointList from "./components/pointList";
-import LeafletDriftMarker from "./components/leafletDriftMarker";
-import LeafletPolyLineMarker from "./components/leafletPolyLineMarker";
+import PointList from "./pages/pointList/pointList";
+import LeafletPolyLineMarker from "./pages/traveledDistance/leafletPolyLineMarker";
 import SearchInput from "./components/searchInput";
 import MonitoringButton from "./components/monitoringButton";
 import Moment from "moment-jalali";
-import Monitoring from './components/monitoring';
+import Monitoring from './pages/monitoring/monitoring';
 import FabBackButton from './components/fabBackButton';
 import NotFound from './components/notFound';
-import TrackPlayer from './components/trackPlayer';
+import TrackPlayer from './pages/browsedRoute/trackPlayer';
+import LeafletDriftMarker from './pages/browsedRoute/leafletDriftMarker';
 
 
 const getParamsOfLeafletDriftMarkerPath = pathname => {

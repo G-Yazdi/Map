@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/core/styles";
-import userService from "../services/userService";
+import userService from "../../services/userService";
 import PointInMultipleMode from "./pointInMultipleMode";
 
 const useStyles = (theme) => ({

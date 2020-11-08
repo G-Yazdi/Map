@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./TrackPlayer.css";
 import LeafletReactTrackPlayer from "leaflet-react-track-player";
-import userService from "../services/userService";
+import userService from "../../services/userService";
 import { Map, TileLayer } from "react-leaflet";
-import Typography from "@material-ui/core/Typography";
-import Card from "./card";
-import ErrorPage from "./errorPage";
-import Moment from "moment";
+import Card from "../../components/card";
+import ErrorPage from "../../components/errorPage";
 
 
 const TrackPlayer = (props)=>{
@@ -20,7 +18,6 @@ const TrackPlayer = (props)=>{
 
 
   useEffect(() => {
-    console.log("trackPlayerProps", props.match.params)
     const {date:paramDate, deviceId} = props.match.params;
     setIsLoading(true);
     setPoints('');
@@ -28,7 +25,6 @@ const TrackPlayer = (props)=>{
     setDeviceErrorMessage('');
     setServerErrorMessage('');
 
-    console.log("trackPlayerPoints1", points.length)
     async function fetchData() {
       await userService.getBrowsedRoute(deviceId, paramDate).then(response => {
         const data = response.data;
@@ -92,19 +88,8 @@ const TrackPlayer = (props)=>{
                   defaultSpeed={10}
                   streamData={false}
                   changeCourseCustomMarker={true}
-                  iconCustomMarker={require('../images/Visitors.png').default}
-              >
-                {/* <Popup>
-                                      <Typography align="right" style={{fontFamily:"Vazir"}}>
-                                          سرعت: 
-                                          {` ${this.state.pointInfo.speed}` }
-                                          <br/>
-                                          زمان: 
-                                          {` ${Moment(this.state.pointInfo.time).format("HH:mm:ss")}`}
-                                      </Typography>
-                                    
-                                    </Popup> */}
-              </LeafletReactTrackPlayer>
+                  iconCustomMarker={require('../../images/Visitors.png').default}
+              />
               <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />

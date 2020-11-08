@@ -5,7 +5,6 @@ import {BrowserRouter} from "react-router-dom";
 import 'leaflet-react-track-player/src/index.css'
 import 'leaflet/dist/leaflet.css'; // sass
 import 'react-leaflet-markercluster/dist/styles.min.css';
-import TrackPlayer from './components/trackPlayer';
 
 // ReactDOM.render(
 //   <React.StrictMode>

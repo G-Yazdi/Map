@@ -2,7 +2,7 @@ import React from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import Typography from '@material-ui/core/Typography';
-import {iconVisitor, iconMarket} from "./icon";
+import {iconVisitor, iconMarket} from "../../components/icon";
 
 export default function Cluster(props) {
   const {customers, devices} = props;

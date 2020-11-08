@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import Image from "../images/unavailable.png";
-import {iconVisitor} from "./icon";
+import Image from "../../images/unavailable.png";
+import {iconVisitor} from "../../components/icon";
 import { withStyles } from "@material-ui/core/styles";
 
 const useStyles = (theme) => ({
