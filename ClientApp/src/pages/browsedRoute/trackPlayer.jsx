@@ -74,11 +74,10 @@ const TrackPlayer = (props)=>{
             const position = [points[0].lat, points[0].lng];
             mapComponent = <div className="TrackPlayer">
             <Map center={position} zoom={15} style={{
-                                          position: "absolute",
-                                          top: "64px",
-                                          height: "495px",
-                                          zIndex:0
-                                        }} >
+                        position: "absolute",
+                        top: "65px",
+                        bottom: 0,
+                        width: "100%", zIndex:"0"}} >
               
               <LeafletReactTrackPlayer
                   autoplay={false}
