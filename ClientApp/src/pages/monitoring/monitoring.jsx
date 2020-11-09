@@ -14,12 +14,12 @@ const Monitoring = ()=>{
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-        .withUrl("http://notifier.dm1.com/Hubs/RealTimeHub", {
-          Headers:{'AppToken': 'RealTimeHubToken'}   
-        })
+    
+        .withUrl('http://notifier.dm1.com/Hubs/RealTimeHub' 
+        )
         .withAutomaticReconnect()
         .build();
-
+        
     setConnection(newConnection);
 }, []);
 
@@ -28,8 +28,9 @@ useEffect(() => {
       connection.start()
           .then(result => {
               console.log('Connected!');
-
+              connection.invoke("JoinToGroupAsync", "test").catch(err => console.error(err));
               connection.on('NotifyAsync', message => {
+                console.log('message');
                   const updatedDevices = [...latestDevices.current];
                   console.log('message', message);
                   updatedDevices.push(message);
