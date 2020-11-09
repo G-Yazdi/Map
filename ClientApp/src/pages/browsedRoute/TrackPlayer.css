@@ -31,7 +31,7 @@
 
 .leaflet-bottom{
   position: absolute !important;
-    bottom: 60px !important;
+  bottom: 0px !important;
 }
 
 @keyframes TrackPlayer-logo-spin {

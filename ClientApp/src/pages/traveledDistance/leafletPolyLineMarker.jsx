@@ -76,8 +76,8 @@ const LeafletPolyLineMarker = (props)=>{
                       style={{
                         position: "absolute",
                         top: "65px",
-                        bottom: 0,
-                        width: "100%", zIndex:"-1"}} 
+                        height: "811px",
+                        width: "100%", zIndex:"0"}}
                       >
                       <TileLayer
                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

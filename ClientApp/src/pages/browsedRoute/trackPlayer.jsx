@@ -76,7 +76,7 @@ const TrackPlayer = (props)=>{
             <Map center={position} zoom={15} style={{
                         position: "absolute",
                         top: "65px",
-                        bottom: 0,
+                        height: "811px",
                         width: "100%", zIndex:"0"}} >
               
               <LeafletReactTrackPlayer
