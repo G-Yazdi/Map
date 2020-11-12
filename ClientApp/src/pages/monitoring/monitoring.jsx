@@ -28,45 +28,56 @@ useEffect(() => {
       connection.start()
           .then(result => {
               console.log('Connected!');
-              connection.invoke("JoinToGroupAsync", "test").catch(err => console.error(err));
+              connection.invoke("JoinToGroupAsync", "test").catch(err => console.error("error",err));
               connection.on('NotifyAsync', message => {
-                console.log('message');
-                  const updatedDevices = [...latestDevices.current];
-                  console.log('message', message);
-                  updatedDevices.push(message);
-              
-                  setDevices(updatedDevices);
+                const updateDevices = message.devices;
+                if(updateDevices){
+                  let newDevices = [...devices];
+                  updateDevices.map((updatedDevice) =>{
+                    let deviceIndex = devices.findIndex(device => device.id == updatedDevice.id );
+                    newDevices[deviceIndex] = updatedDevice;
+                  }
+                        
+                  );
+                  setDevices(newDevices);
+                }
+                
+                // console.log('message');
+                //   const updatedDevices = [...latestDevices.current];
+                //   console.log('message', message);
+                //   updatedDevices.push(message);
+                //   console.log('message1', updatedDevices);
               });
           })
           .catch(e => console.log('Connection failed: ', e));
   }
 }, [connection]);
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   async function fetchData() {
-  //     await userService.getMonitoringMap().then(response => {
-  //       const data = response.data;
-  //       console.log("data:", data)
-  //       if (data !== null) {
-  //         setCustomers(data.customers);
-  //         setDevices(data.devices);
-  //         setIsLoading(false);
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log("error", error);
-  //     });
-  //   }
-  //   fetchData();
-  // }, []);
+    async function fetchData() {
+      await userService.getMonitoringMap().then(response => {
+        const data = response.data;
+        console.log("data:", data)
+        if (data !== null) {
+          setCustomers(data.customers);
+          setDevices(data.devices);
+          setIsLoading(false);
+        }
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
+    }
+    fetchData();
+  }, []);
 
  
 
-  // if(!isLoading){
-  //   return (
-  //     <Cluster customers={customers} devices={devices}/>
-  //   );
-  // }
+  if(!isLoading){
+    return (
+      <Cluster customers={customers} devices={devices}/>
+    );
+  }
   return null;
 }
 export default Monitoring;
