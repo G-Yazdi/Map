@@ -30,16 +30,20 @@ useEffect(() => {
               console.log('Connected!');
               connection.invoke("JoinToGroupAsync", "test").catch(err => console.error("error",err));
               connection.on('NotifyAsync', message => {
-                const updateDevices = message.devices;
-                if(updateDevices){
-                  let newDevices = [...devices];
-                  updateDevices.map((updatedDevice) =>{
-                    let deviceIndex = devices.findIndex(device => device.id == updatedDevice.id );
-                    newDevices[deviceIndex] = updatedDevice;
+                const receivedDevices = message.devices;
+                if(receivedDevices){
+                  let updatedDevices = [...devices];
+                  receivedDevices.map((receivedDevice) =>{
+                    let deviceIndex = devices.findIndex(device => device.id == receivedDevice.id );
+                    if(deviceIndex)
+                      updatedDevices[deviceIndex] = receivedDevice;
+                    else{
+                      updatedDevices.push(receivedDevice);
+                    }
                   }
                         
                   );
-                  setDevices(newDevices);
+                  setDevices(updatedDevices);
                 }
                 
                 // console.log('message');
