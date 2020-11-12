@@ -59,7 +59,12 @@ body{
   top: 70px !important;
 }
 
-.leaflet{
+.leaflet-popup-content-wrapper{
+  text-align: center !important;
+}
+.leaflet, .leaflet-popup {
+  text-align: center !important;
+  font-family: 'Vazir';
   opacity: 1;
     transform: translate3d(349px, 152px, 0px);
     bottom: -7px;
@@ -67,6 +72,10 @@ body{
     position: absolute;
     text-align: center;
     margin-bottom: 58px !important
+}
+
+.leaflet-popup-content{
+  line-height: 28px !important;
 }
 .MuiCardHeader-title{
   line-height: 28px;
