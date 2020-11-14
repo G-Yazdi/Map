@@ -3,6 +3,7 @@ import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import Typography from '@material-ui/core/Typography';
 import {iconVisitor, iconMarket} from "../../components/icon";
+import Moment from "moment";
 
 export default function Cluster(props) {
   const {customers, devices} = props;
@@ -37,6 +38,9 @@ export default function Cluster(props) {
                               <br/>
                               IMEI: 
                               {item.deviceIMEI}
+                              <br/>
+                              زمان: 
+                              {` ${Moment(item.locationTime).format("HH:mm:ss")}`}
                         </Typography>
                 </Popup>
               </Marker>;
