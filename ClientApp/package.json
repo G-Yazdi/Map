@@ -47,5 +47,10 @@
   },
   "devDependencies": {
     "file-loader": "^6.1.0"
-  }
+  },
+  "files": [
+      "leaflet-react-track-player/src/index.css",
+      "leaflet/dist/leaflet.css",
+      "leaflet-react-track-player/lib/index.js"
+    ]
 }
