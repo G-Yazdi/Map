@@ -15,7 +15,7 @@ const Monitoring = ()=>{
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
     
-        .withUrl('http://notifier.dm1.com/Hubs/RealTimeHub' 
+        .withUrl('http://10.10.1.34:4054/Hubs/RealTimeHub' 
         )
         .withAutomaticReconnect()
         .build();
@@ -28,23 +28,24 @@ useEffect(() => {
       connection.start()
           .then(result => {
               console.log('Connected!');
-              connection.invoke("JoinToGroupAsync", "test").catch(err => console.error("error",err));
+              connection.invoke("JoinToGroupAsync", "Golriz.Gps").catch(err => console.error("error",err));
               connection.on('NotifyAsync', message => {
-                const receivedDevices = message.devices;
-                if(receivedDevices){
-                  let updatedDevices = [...devices];
-                  receivedDevices.map((receivedDevice) =>{
-                    let deviceIndex = devices.findIndex(device => device.id == receivedDevice.id );
-                    if(deviceIndex)
-                      updatedDevices[deviceIndex] = receivedDevice;
-                    else{
-                      updatedDevices.push(receivedDevice);
-                    }
-                  }
+                console.log('message', message);
+                // const receivedDevices = message.devices;
+                // if(receivedDevices){
+                //   let updatedDevices = [...devices];
+                //   receivedDevices.map((receivedDevice) =>{
+                //     let deviceIndex = devices.findIndex(device => device.id == receivedDevice.id );
+                //     if(deviceIndex)
+                //       updatedDevices[deviceIndex] = receivedDevice;
+                //     else{
+                //       updatedDevices.push(receivedDevice);
+                //     }
+                //   }
                         
-                  );
-                  setDevices(updatedDevices);
-                }
+                //   );
+                //   setDevices(updatedDevices);
+                //}
                 
                 // console.log('message');
                 //   const updatedDevices = [...latestDevices.current];
@@ -61,7 +62,6 @@ useEffect(() => {
     async function fetchData() {
       await userService.getMonitoringMap().then(response => {
         const data = response.data;
-        console.log("data:", data)
         if (data !== null) {
           setCustomers(data.customers);
           setDevices(data.devices);
