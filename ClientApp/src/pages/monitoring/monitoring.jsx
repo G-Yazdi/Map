@@ -1,39 +1,85 @@
-import React, {Component} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import userService from "../../services/userService";
 import Cluster from "./cluster";
+import { HubConnectionBuilder } from '@microsoft/signalr';
 
+const Monitoring = ()=>{
+  
+  const [isLoading, setIsLoading] = useState(true);
+  const [customers, setCustomers] = useState([]);
+  const [devices, setDevices] = useState([]);
+  const [ connection, setConnection ] = useState(null);
 
-class Monitoring extends Component {
-  state = {
-    isLoading: true,
-    customers: [],
-    devices:[]
-};
+  const latestDivicesState = useRef(null);
 
-  componentDidMount() {
-    userService.getMonitoringMap().then(response => {
+  latestDivicesState.current = devices;
+  
+
+useEffect(() => {
+  console.log("error2");
+
+  async function fetchData() {
+    await userService.getMonitoringMap().then(response => {
       const data = response.data;
-      console.log("data:", data)
       if (data !== null) {
-        this.setState({ customers: data.customers, devices: data.devices});
-        this.setState({isLoading:false})
+        setCustomers(data.customers);
+        setDevices(data.devices);
+        setIsLoading(false);
+        const newConnection = new HubConnectionBuilder().withUrl('http://10.10.1.34:4054/Hubs/RealTimeHub')
+        .withAutomaticReconnect()
+        .build();
+        setConnection(newConnection);
       }
     })
     .catch(error => {
       console.log("error", error);
     });
   }
-  handleBackToList = () => {
-    this.props.history.replace("/");
-  };
-  render(){
-    if(!this.state.isLoading){
-      return (
-        <Cluster customers={this.state.customers} devices={this.state.devices} onClick={this.handleBackToList}/>
-      );
-    }
-    return null;
-  }
-}
+  fetchData();
+}, []);
 
+useEffect(() => {
+  console.log("error4");
+  if (connection) {
+      connection.start()
+          .then(result => {
+              console.log('Connected!');
+              connection.invoke("JoinToGroupAsync", "Golriz.Gps").catch(err => console.error("error",err));
+              connection.on('NotifyAsync', message => {
+                
+                if(message.TYPE == "LAST_LOCATION"){
+                  const updatedDevices = [...latestDivicesState.current];;
+                  
+
+                  const receivedDevice = JSON.parse(message.BODY);
+                  
+                  let deviceIndex = updatedDevices.findIndex(device => device.deviceId == receivedDevice.Device.ID );
+                  if(deviceIndex >= 0){
+                    console.log('index', deviceIndex);
+                    updatedDevices[deviceIndex] = {...updatedDevices[deviceIndex], locationTime: receivedDevice.Location.Time, 
+                    locationLongitude: receivedDevice.Location.Longitude, locationLatitude: receivedDevice.Location.Latitude};
+                    
+                    setDevices(updatedDevices);
+                  }
+                  // else{
+                  //    updatedDevices.push(receivedDevice);
+                  // }
+                  
+                }
+              });
+          })
+          .catch(e => console.log('Connection failed: ', e));
+  }
+}, [connection]);
+  
+
+ 
+
+  if(!isLoading){
+    return (
+      <Cluster customers={customers} devices={devices}/>
+    );
+  }
+  return null;
+}
 export default Monitoring;
