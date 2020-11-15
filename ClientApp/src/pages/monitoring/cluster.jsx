@@ -14,7 +14,7 @@ export default function Cluster(props) {
         center={[36.260464, 59.616756]}
         zoom={10}
         maxZoom={18}
-        style={{height:"92.5vh",
+        style={{height:"92.64%",
         position: "absolute",
         top: "65px",
         bottom: 0,
