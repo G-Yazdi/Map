@@ -3,10 +3,11 @@ import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import Typography from '@material-ui/core/Typography';
 import {iconVisitor, iconMarket} from "../../components/icon";
-import Moment from "moment";
+import Moment from "moment-jalali";
 
 export default function Cluster(props) {
   const {customers, devices} = props;
+
   return (
     <React.Fragment>
       <Map
@@ -16,7 +17,6 @@ export default function Cluster(props) {
         maxZoom={18}
         style={{height:"92.64%",
         position: "absolute",
-        top: "65px",
         bottom: 0,
         width: "100%",
         zIndex: "-1",
@@ -28,10 +28,11 @@ export default function Cluster(props) {
         />
         {devices.map(item=>{
             if(item.locationLatitude && item.locationLongitude){
-                console.log("item", item);
+                console.log("date", new Date(item.locationTime));
+                console.log("date1", new Date());
               return <Marker key={item.deviceId} position={[item.locationLatitude, item.locationLongitude]} icon={ iconVisitor }>
                       <Popup className="leaflet">
-                        <Typography align="right" style={{fontFamily:"Vazir", fontSize: "13px",
+                        <Typography align="center" style={{fontFamily:"Vazir", fontSize: "13px",
                               lineHeight: "30px"}}>
                               نام: &nbsp; 
                               {item.deviceNickname === "N/A"? "نامشخص": item.deviceNickname}
@@ -39,8 +40,12 @@ export default function Cluster(props) {
                               IMEI: 
                               {item.deviceIMEI}
                               <br/>
+                              تاریخ:
+                              {` ${new Date(item.locationTime).toLocaleDateString('fa-IR') == 
+                                  new Date().toLocaleDateString('fa-IR')? "امروز": new Date(item.locationTime).toLocaleDateString('fa-IR')}`}
+                              <br/>
                               زمان: 
-                              {` ${Moment(item.locationTime).format("HH:mm:ss")}`}
+                              {` ${Moment(item.locationTime).format("HH:mm")}`}
                         </Typography>
                 </Popup>
               </Marker>;

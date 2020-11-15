@@ -41,7 +41,6 @@ class App extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    console.log("componentDidMount1", this.props.location)
     const { pathname } = this.props.location;
     let currentParams = null;
     if(pathname.includes("browsedRoute")){
@@ -52,11 +51,8 @@ class App extends Component {
     }
     
     if(currentParams){
-      console.log("componentDidMount1.1", currentParams)
       const {date, deviceId} = currentParams;
-      console.log("componentDidMount1.1.1", date)
       let formateDate = date.replace(/\-/g, '/');
-      console.log("componentDidMountformatedDate:", formateDate)
       if(this._isMounted)
         this.setState({date: new Moment(formateDate), deviceId});  
     }
@@ -65,11 +61,9 @@ class App extends Component {
 
   componentDidUpdate(prevProps) {
     this._isMounted = true;
-    console.log("componentDidUpdate2")
     const { pathname } = this.props.location;
     let currentParams = null;
     if(this.props.location !== prevProps.location) {
-      console.log("componentDidUpdate2.1")
 
       if(pathname.includes("browsedRoute")){
         currentParams = getParamsOfLeafletDriftMarkerPath(pathname);
@@ -79,11 +73,8 @@ class App extends Component {
       }
     
       if(currentParams){
-        console.log("componentDidUpdate1.1", currentParams)
         const {date, deviceId} = currentParams;
-        console.log("componentDidUpdate1.1.1", date)
         let formateDate = date.replace(/\-/g, '/');
-        console.log("componentDidUpdateformatedDate:", formateDate)
         if(this._isMounted)
           this.setState({date: new Moment(formateDate), deviceId});  
       }
@@ -95,7 +86,6 @@ class App extends Component {
   }
 
   handleSearch = () => {
-    console.log("3")
     let date = this.state.date._d;
     if(!date) return;
     date = new Date(date.toString().slice(0, 28)).toISOString()
@@ -117,7 +107,6 @@ class App extends Component {
   //     })}
   // }
   handleChange = (value) => {
-    console.log("date", value)
     if(this._isMounted)
       this.setState({date: value});
   };
@@ -125,7 +114,6 @@ class App extends Component {
     this.props.history.replace("/");
   };
   render(){
-    console.log("4", this.props)
     const path = this.props.location.pathname;
 
     let navComponent = '';
