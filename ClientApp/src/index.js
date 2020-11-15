@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
-import 'leaflet-react-track-player/src/index.css'
-import 'leaflet/dist/leaflet.css'; // sass
+import './components/leaflet-react-track-player/src/index.css'
+import './components/leaflet/leaflet.css'; // sass
 import 'react-leaflet-markercluster/dist/styles.min.css';
 
 // ReactDOM.render(
