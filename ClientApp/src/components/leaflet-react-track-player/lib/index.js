@@ -152,6 +152,8 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
         <br />
         <img src=${require("./icon/time.png").default}  style="height:13px; display: inline-block; margin-left: -8px;
         margin-right: 5px; margin-bottom: -1px"/>${_moment(point.time).format("HH:mm:ss")}`);
+        console.log("time:", _moment(point.time).format("HH:mm:ss"))
+        console.log("speed:", point.speed)
       
     };
 
