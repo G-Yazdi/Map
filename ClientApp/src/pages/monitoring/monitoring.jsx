@@ -38,38 +38,33 @@ useEffect(() => {
   fetchData();
 }, []);
 
+
+const handler = (message) => { 
+  if(message.TYPE == "LAST_LOCATION"){
+    const updatedDevices = [...latestDivicesState.current];
+    const receivedDevice = JSON.parse(message.BODY);
+    
+    let deviceIndex = updatedDevices.findIndex(device => device.deviceId == receivedDevice.Device.ID );
+    if(deviceIndex >= 0){
+      updatedDevices[deviceIndex] = {...updatedDevices[deviceIndex], locationTime: receivedDevice.Location.Time, 
+      locationLongitude: receivedDevice.Location.Longitude, locationLatitude: receivedDevice.Location.Latitude};
+      
+      setDevices(updatedDevices);
+    }
+  }
+}
 useEffect(() => {
-  console.log("error4");
+  
   if (connection) {
       connection.start()
           .then(result => {
               console.log('Connected!');
               connection.invoke("JoinToGroupAsync", "Golriz.Gps").catch(err => console.error("error",err));
-              connection.on('NotifyAsync', message => {
-                
-                if(message.TYPE == "LAST_LOCATION"){
-                  const updatedDevices = [...latestDivicesState.current];;
-                  
-
-                  const receivedDevice = JSON.parse(message.BODY);
-                  
-                  let deviceIndex = updatedDevices.findIndex(device => device.deviceId == receivedDevice.Device.ID );
-                  if(deviceIndex >= 0){
-                    console.log('index', deviceIndex);
-                    updatedDevices[deviceIndex] = {...updatedDevices[deviceIndex], locationTime: receivedDevice.Location.Time, 
-                    locationLongitude: receivedDevice.Location.Longitude, locationLatitude: receivedDevice.Location.Latitude};
-                    
-                    setDevices(updatedDevices);
-                  }
-                  // else{
-                  //    updatedDevices.push(receivedDevice);
-                  // }
-                  
-                }
-              });
+              connection.on('NotifyAsync', handler);
           })
           .catch(e => console.log('Connection failed: ', e));
   }
+    return ()=>connection?.off('NotifyAsync', handler);
 }, [connection]);
   
 
