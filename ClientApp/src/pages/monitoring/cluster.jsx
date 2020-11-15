@@ -33,10 +33,10 @@ export default function Cluster(props) {
                         console.log("date", new Date(item.locationTime));
                         console.log("date1", new Date());
                         return <Marker key={item.deviceId} position={[item.locationLatitude, item.locationLongitude]} icon={iconVisitor}>
-                            <Popup className="leaflet">
+                            <Popup className="myLeaflet">
                                 <Typography align="center" style={{
                                     fontFamily: "Vazir", fontSize: "13px",
-                                    lineHeight: "30px"
+                                    lineHeight: "30px", width:"124px"
                                 }}>
                                     نام: &nbsp;
                               {item.deviceNickname === "N/A" ? "نامشخص" : item.deviceNickname}
@@ -46,8 +46,9 @@ export default function Cluster(props) {
                                 </Typography>
                                 <Typography align="left" style={{
                                     fontFamily: "Vazir", fontSize: "11px", fontWeight:"bold",
-                                    lineHeight: "20px"}}>
-
+                                    lineHeight: "20px", width:"100px"}}>
+                                    <img src={require("../../images/time.png").default}  style={{height:"13px", display: "inline-block", marginLeft: "-8px",
+                                        marginRight: "5px", marginBottom: "-1px"}}/> 
                                     {` ${new Date(item.locationTime).toLocaleDateString('fa-IR') ==
                                         new Date().toLocaleDateString('fa-IR') ? "" : new Date(item.locationTime).toLocaleDateString('fa-IR') + "-"}`}
                                     {` ${Moment(item.locationTime).format("HH:mm")}`}
@@ -60,10 +61,10 @@ export default function Cluster(props) {
                 <MarkerClusterGroup>
                     {customers.map(item =>
                         <Marker key={item.id} position={[item.locationLatitude, item.locationLongitude]} icon={iconMarket}>
-                            <Popup className="leaflet">
+                            <Popup className="myLeaflet1">
                                 <Typography align="right" style={{
                                     fontFamily: "Vazir", fontSize: "13px",
-                                    lineHeight: "30px"
+                                    lineHeight: "30px", width:"190px"
                                 }}>
                                     نام: &nbsp;
                         {item.name}

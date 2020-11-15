@@ -146,7 +146,13 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
         });
       }
       _this.leafletElement.finishMarker.setIcon(_this.createIcon(point.course));
-      _this.leafletElement.finishMarker.bindPopup(`<b> سرعت: ${point.speed}</b><br /><b>زمان: ${_moment(point.time).format("HH:mm:ss")}</b>`);
+      _this.leafletElement.finishMarker.bindPopup(
+        `<img src=${require("./icon/speed.png").default}  style="height:13px; display: inline-block; margin-left: -8px;
+        margin-right: 5px; margin-bottom: -1px"/>${point.speed}
+        <br />
+        <img src=${require("./icon/time.png").default}  style="height:13px; display: inline-block; margin-left: -8px;
+        margin-right: 5px; margin-bottom: -1px"/>${_moment(point.time).format("HH:mm:ss")}`);
+      
     };
 
     _this.finishTrack = function (lastPosition) {

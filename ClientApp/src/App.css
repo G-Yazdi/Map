@@ -66,16 +66,30 @@ body{
   text-align: center !important;
   font-family: 'Vazir';
   opacity: 1;
+  transform: translate3d(799px, 367px, 0px);
+    bottom: -7px;
+    left: -90px;
+    position: absolute;
+    text-align: center;
+    margin-bottom: 58px !important;
+  /* opacity: 1;
     transform: translate3d(349px, 152px, 0px);
     bottom: -7px;
     left: -46px;
     position: absolute;
     text-align: center;
-    margin-bottom: 58px !important
+    margin-bottom: 58px !important */
 }
-
+.myLeaflet{
+  width: 190px !important;
+}
+.myLeaflet1{
+  width: 234px !important;
+}
 .leaflet-popup-content{
   line-height: 28px !important;
+  width: 79px !important;
+  text-align: left;
 }
 .MuiCardHeader-title{
   line-height: 28px;
