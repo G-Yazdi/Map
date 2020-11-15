@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./TrackPlayer.css";
-import LeafletReactTrackPlayer from "leaflet-react-track-player";
+import LeafletReactTrackPlayer from "../../components/leaflet-react-track-player";
 import userService from "../../services/userService";
 import { Map, TileLayer } from "react-leaflet";
 import Card from "../../components/card";
