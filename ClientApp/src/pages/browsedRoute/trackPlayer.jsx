@@ -5,6 +5,7 @@ import userService from "../../services/userService";
 import { Map, TileLayer } from "react-leaflet";
 import Card from "../../components/card";
 import ErrorPage from "../../components/errorPage";
+import {default as TrackPlayerContext} from './../../context/trackPlayer-context';
 
 
 const TrackPlayer = (props)=>{
@@ -40,7 +41,6 @@ const TrackPlayer = (props)=>{
         if(data.browsedPoints !== null && data.browsedPoints.length > 0){
             setPoints(data.browsedPoints);
             setIsLoading(false);
-            console.log("trackPlayerPoints2", points.length)
         }
         else{
           setPointsErrorMessage("اطلاعات مسیر طی شده در تاریخ مورد نظر موجود نمی باشد");
@@ -65,7 +65,7 @@ const TrackPlayer = (props)=>{
     let mapComponent = null;
     if(!deviceErrorMessage){
       const fullName = deviceInfo.nickName !=="N/A"? deviceInfo.nickName: "نام و نام خانوادگی";
-      cardComponent = <Card fullName={fullName} 
+      cardComponent =<Card fullName={fullName} 
                       imei={deviceInfo.imei} 
                       simNumber={deviceInfo.simNumber} 
                       date={date}
@@ -87,11 +87,13 @@ const TrackPlayer = (props)=>{
                   defaultSpeed={10}
                   streamData={false}
                   changeCourseCustomMarker={true}
-                  iconCustomMarker={require('../../images/Visitors.png').default}
-              />
+                  iconCustomMarker={require('../../images/Visitors.png').default}/>
               <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
+              {/* <TrackPlayerContext.Consumer>
+      {(context) =>console.log(context)}
+      </TrackPlayerContext.Consumer> */}
             </Map>
           </div>
         

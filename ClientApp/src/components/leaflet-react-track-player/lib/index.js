@@ -1,4 +1,7 @@
+
 "use strict";
+
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +13,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _react = require("react");
 
+// var {useContext} = require("react");
+
+
 var _react2 = _interopRequireDefault(_react);
+
 
 var _propTypes = require("prop-types");
 
@@ -35,12 +42,17 @@ var _dots2 = _interopRequireDefault(_dots);
 var _reactLeaflet = require("react-leaflet");
 
 var _lodash = require("lodash");
+// var myPoint = null;
 
 require("./multyPolyline");
 
 require("./snake");
 
 require("./index.css");
+const TrackPlayerContext = require("../../../context/trackPlayer-context.jsx").default;
+const TrackPlayerContext = require("../../../components/static.jsx").default;
+
+
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -77,7 +89,7 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
     
 
     var _this = _possibleConstructorReturn(this, (LeafletReactTrackPlayer.__proto__ || Object.getPrototypeOf(LeafletReactTrackPlayer)).call(this, props));
-
+    
     _this.initSnake = function () {
       _this.leafletElement.snakePolyline.snakePlayer({
         play: _this.state.active,
@@ -85,6 +97,12 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
           return _this.flyTrack(point);
         },
         nextPoint: function nextPoint(point, index) {
+          // myPoint = point;
+          
+          // const context = _react2.default.useContext(TrackPlayerContext);
+          
+          // console.log("myPoint", context)
+          
           return _this.nextPoint(point, index);
         },
         finish: function finish(lastPosition) {
@@ -145,18 +163,21 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
           return _this.props.callbackCourse(point, index);
         });
       }
+      
+      // _react2.default.createElement(
+      //   TrackPlayerContext.Provider, {value:{speed: 100, time: point.time}});
+      //   _react2.default.createElement(
+      //     TrackPlayerContext.Consumer, (context)=>console.log("kkkkk",context));
       _this.leafletElement.finishMarker.setIcon(_this.createIcon(point.course));
       _this.leafletElement.finishMarker.bindPopup(
         `<img src=${require("./icon/speed.png").default}  style="height:13px; display: inline-block; margin-left: -8px;
         margin-right: 5px; margin-bottom: -1px"/>${point.speed}
         <br />
         <img src=${require("./icon/time.png").default}  style="height:13px; display: inline-block; margin-left: -8px;
-        margin-right: 5px; margin-bottom: -1px"/>${_moment(point.time).format("HH:mm:ss")}`);
-        console.log("time:", _moment(point.time).format("HH:mm:ss"))
-        console.log("speed:", point.speed)
-      
+        margin-right: 5px; margin-bottom: -1px"/>${_moment(point.time).format("HH:mm:ss")}`)
+        
     };
-
+    
     _this.finishTrack = function (lastPosition) {
       // callback: end of animation or last point after changing position
       if (lastPosition) {
@@ -346,6 +367,7 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
       }));
 
       this.props.leaflet.map.addLayer(snakePolyline);
+      
       return {
         snakePolyline: snakePolyline,
         finishMarker: finishMarker
@@ -355,10 +377,12 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.initSnake();
+      
     }
   }, {
     key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps, nextState) {
+      
       return this.state.init !== nextState.init || this.state.activePosition !== nextProps.activePosition || this.props.track !== nextProps.track;
     }
   }, {
@@ -406,121 +430,125 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
     key: "render",
     value: function render() {
       var _this4 = this;
+      var obj = {val:"heyyyyyyyyyyy"}
 
       return _react2.default.createElement(
-        _reactLeafletCustomControl2.default,
-        { position: "bottomleft" },
-        this.props.useControl ? _react2.default.createElement(
-          "div",
-          { className: "leaflet-control leaflet-react-track-player" },
-          _react2.default.createElement(
+        TrackPlayerContext.Provider, {value: obj}, 
+        _react2.default.createElement(
+          _reactLeafletCustomControl2.default,
+          { position: "bottomleft" },
+          this.props.useControl ? _react2.default.createElement(
             "div",
-            { className: "tp-buttons" },
-            _react2.default.createElement("button", {
-              className: "tp_button prev",
-              onClick: function onClick() {
-                return _this4.prevStep();
-              },
-              alt: "Prev",
-              disabled: this.state.activeStream
-            }),
-            _react2.default.createElement("button", {
-              className: "tp_button " + (this.state.active ? "pause" : "play"),
-              onClick: function onClick() {
-                return _this4.tooglePlay();
-              },
-              alt: this.state.active ? "PaUse" : "Play",
-              disabled: this.state.activeStream
-            }),
-            !this.props.streamData ? _react2.default.createElement("button", {
-              alt: "Stop",
-              className: "tp_button stop",
-              onClick: function onClick() {
-                return _this4.toogleStream();
-              }
-            }) : _react2.default.createElement("button", {
-              alt: "Stop stream",
-              className: "tp_button" + (this.state.activeStream ? " stop" : " stream"),
-              onClick: function onClick() {
-                return _this4.toogleStream();
-              }
-            }),
-            _react2.default.createElement("button", {
-              className: "tp_button next",
-              onClick: function onClick() {
-                return _this4.nextStep();
-              },
-              alt: "Next",
-              disabled: this.state.activeStream
-            }),
-            _react2.default.createElement("button", {
-              className: "tp_button speed",
-              onClick: function onClick() {
-                return _this4.setState({
-                  openSpeedControl: !_this4.state.openSpeedControl
-                });
-              },
-              alt: "Change Speed"
-            }),
-            this.state.openSpeedControl ? _react2.default.createElement(
-              "div",
-              { className: "tp-speed" },
-              this.props.speedArray.map(function (item) {
-                return _react2.default.createElement(
-                  "button",
-                  {
-                    key: item,
-                    alt: item,
-                    className: "tp-speed-item" + (_this4.state.speed === item ? " active" : ""),
-                    onClick: function onClick() {
-                      return _this4.changeSpeed(item);
-                    }
-                  },
-                  item
-                );
-              })
-            ) : null
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "tp_track-line" },
+            { className: "leaflet-control leaflet-react-track-player" },
             _react2.default.createElement(
               "div",
-              {
-                className: "tp_track-line_line",
-                ref: function ref(line) {
-                  _this4.line = line;
+              { className: "tp-buttons" },
+              _react2.default.createElement("button", {
+                className: "tp_button prev",
+                onClick: function onClick() {
+                  return _this4.prevStep();
                 },
-                onClick: function onClick(e) {
-                  return _this4.changeActivePosition(e);
+                alt: "Prev",
+                disabled: this.state.activeStream
+              }),
+              _react2.default.createElement("button", {
+                className: "tp_button " + (this.state.active ? "pause" : "play"),
+                onClick: function onClick() {
+                  return _this4.tooglePlay();
+                },
+                alt: this.state.active ? "PaUse" : "Play",
+                disabled: this.state.activeStream
+              }),
+              !this.props.streamData ? _react2.default.createElement("button", {
+                alt: "Stop",
+                className: "tp_button stop",
+                onClick: function onClick() {
+                  return _this4.toogleStream();
                 }
-              },
-              _react2.default.createElement("div", {
-                key: this.state.activePosition,
-                style: { width: this.state.activePosition + "%" },
-                className: "tp_track-line_active"
-              })
+              }) : _react2.default.createElement("button", {
+                alt: "Stop stream",
+                className: "tp_button" + (this.state.activeStream ? " stop" : " stream"),
+                onClick: function onClick() {
+                  return _this4.toogleStream();
+                }
+              }),
+              _react2.default.createElement("button", {
+                className: "tp_button next",
+                onClick: function onClick() {
+                  return _this4.nextStep();
+                },
+                alt: "Next",
+                disabled: this.state.activeStream
+              }),
+              _react2.default.createElement("button", {
+                className: "tp_button speed",
+                onClick: function onClick() {
+                  return _this4.setState({
+                    openSpeedControl: !_this4.state.openSpeedControl
+                  });
+                },
+                alt: "Change Speed"
+              }),
+              this.state.openSpeedControl ? _react2.default.createElement(
+                "div",
+                { className: "tp-speed" },
+                this.props.speedArray.map(function (item) {
+                  return _react2.default.createElement(
+                    "button",
+                    {
+                      key: item,
+                      alt: item,
+                      className: "tp-speed-item" + (_this4.state.speed === item ? " active" : ""),
+                      onClick: function onClick() {
+                        return _this4.changeSpeed(item);
+                      }
+                    },
+                    item
+                  );
+                })
+              ) : null
             ),
-            this.props.showDots ? _react2.default.createElement(
+            _react2.default.createElement(
               "div",
-              {
-                className: "tp_track-points",
-                ref: function ref(e) {
-                  _this4.pointsLine = e;
-                }
-              },
-              _react2.default.createElement(_dots2.default, {
-                key: "markers",
-                track: this.state.track,
-                type: this.state.options.progressFormat,
-                timeFormat: this.props.timeFormat,
-                maxDistance: this.state.maxDistance,
-                durationTrack: this.state.durationTrack
-              })
-            ) : null
-          )
-        ) : null
-      );
+              { className: "tp_track-line" },
+              _react2.default.createElement(
+                "div",
+                {
+                  className: "tp_track-line_line",
+                  ref: function ref(line) {
+                    _this4.line = line;
+                  },
+                  onClick: function onClick(e) {
+                    return _this4.changeActivePosition(e);
+                  }
+                },
+                _react2.default.createElement("div", {
+                  key: this.state.activePosition,
+                  style: { width: this.state.activePosition + "%" },
+                  className: "tp_track-line_active"
+                })
+              ),
+              this.props.showDots ? _react2.default.createElement(
+                "div",
+                {
+                  className: "tp_track-points",
+                  ref: function ref(e) {
+                    _this4.pointsLine = e;
+                  }
+                },
+                _react2.default.createElement(_dots2.default, {
+                  key: "markers",
+                  track: this.state.track,
+                  type: this.state.options.progressFormat,
+                  timeFormat: this.props.timeFormat,
+                  maxDistance: this.state.maxDistance,
+                  durationTrack: this.state.durationTrack
+                })
+              ) : null
+            )
+          ) : null
+        ));
+       
     }
   }]);
 
