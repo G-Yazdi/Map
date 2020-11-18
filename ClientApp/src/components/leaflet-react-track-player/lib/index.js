@@ -13,8 +13,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _react = require("react");
 
-// var {useContext} = require("react");
-
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -42,15 +40,13 @@ var _dots2 = _interopRequireDefault(_dots);
 var _reactLeaflet = require("react-leaflet");
 
 var _lodash = require("lodash");
-// var myPoint = null;
 
 require("./multyPolyline");
 
 require("./snake");
 
 require("./index.css");
-const TrackPlayerContext = require("../../../context/trackPlayer-context.jsx").default;
-const TrackPlayerContext = require("../../../components/static.jsx").default;
+var {connect} = require("react-redux");
 
 
 
@@ -97,11 +93,6 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
           return _this.flyTrack(point);
         },
         nextPoint: function nextPoint(point, index) {
-          // myPoint = point;
-          
-          // const context = _react2.default.useContext(TrackPlayerContext);
-          
-          // console.log("myPoint", context)
           
           return _this.nextPoint(point, index);
         },
@@ -163,11 +154,10 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
           return _this.props.callbackCourse(point, index);
         });
       }
-      
-      // _react2.default.createElement(
-      //   TrackPlayerContext.Provider, {value:{speed: 100, time: point.time}});
-      //   _react2.default.createElement(
-      //     TrackPlayerContext.Consumer, (context)=>console.log("kkkkk",context));
+      this.props.onSpeedChange(point.speed);
+      this.props.onTimeChange(point.time);
+
+
       _this.leafletElement.finishMarker.setIcon(_this.createIcon(point.course));
       _this.leafletElement.finishMarker.bindPopup(
         `<img src=${require("./icon/speed.png").default}  style="height:13px; display: inline-block; margin-left: -8px;
@@ -340,10 +330,12 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
     return _this;
   }
 
-  _createClass(LeafletReactTrackPlayer, [{
+  _createClass(LeafletReactTrackPlayer, [
+    {
     key: "createLeafletElement",
     value: function createLeafletElement() {
       var _this2 = this;
+      
 
       // icon
       this.createIcon = function (rotate) {
@@ -430,11 +422,8 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
     key: "render",
     value: function render() {
       var _this4 = this;
-      var obj = {val:"heyyyyyyyyyyy"}
 
       return _react2.default.createElement(
-        TrackPlayerContext.Provider, {value: obj}, 
-        _react2.default.createElement(
           _reactLeafletCustomControl2.default,
           { position: "bottomleft" },
           this.props.useControl ? _react2.default.createElement(
@@ -547,7 +536,7 @@ var LeafletReactTrackPlayer = function (_MapLayer) {
               ) : null
             )
           ) : null
-        ));
+        );
        
     }
   }]);
@@ -607,4 +596,14 @@ LeafletReactTrackPlayer.propTypes = {
   callbackStream: _propTypes2.default.func
 };
 
-exports.default = (0, _reactLeaflet.withLeaflet)(LeafletReactTrackPlayer);
+function mapDispatchToProps(dispatch){
+  return{
+    onSpeedChange:function (speed){
+      dispatch({type:'SPEEDCHANGE', speed:speed});
+    },
+    onTimeChange:function (time){
+      dispatch({type:'TIMECHANGE', time:time});
+    }
+  };
+};
+exports.default = (0, _reactLeaflet.withLeaflet)(connect(null, mapDispatchToProps)(LeafletReactTrackPlayer));

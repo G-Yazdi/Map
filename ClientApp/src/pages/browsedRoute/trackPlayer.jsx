@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./TrackPlayer.css";
 import LeafletReactTrackPlayer from "../../components/leaflet-react-track-player";
 import userService from "../../services/userService";
 import { Map, TileLayer } from "react-leaflet";
-import Card from "../../components/card";
+import DeviceInfoCard from "../../components/deviceInfoCard";
+import MovingInfoCard from "../../components/movingInfoCard";
 import ErrorPage from "../../components/errorPage";
-import {default as TrackPlayerContext} from './../../context/trackPlayer-context';
+import {connect} from "react-redux";
+import Moment from "moment-jalali";
 
 
 const TrackPlayer = (props)=>{
@@ -16,7 +18,7 @@ const TrackPlayer = (props)=>{
   const [pointsErrorMessage, setPointsErrorMessage]=useState('');
   const [deviceErrorMessage, setDeviceErrorMessage]=useState('');
   const [serverErrorMessage, setServerErrorMessage]=useState('');
-
+  const[speed, setSpeed]= useState(0);
 
   useEffect(() => {
     const {date:paramDate, deviceId} = props.match.params;
@@ -25,7 +27,7 @@ const TrackPlayer = (props)=>{
     setPointsErrorMessage('');
     setDeviceErrorMessage('');
     setServerErrorMessage('');
-
+    
     async function fetchData() {
       await userService.getBrowsedRoute(deviceId, paramDate).then(response => {
         const data = response.data;
@@ -57,20 +59,25 @@ const TrackPlayer = (props)=>{
     fetchData();
   }, [JSON.stringify(props.match.params)]);
 
+  
   if(!isLoading){
     if(serverErrorMessage){
       return <ErrorPage errorMessage={serverErrorMessage}/>
     }
     let cardComponent = null;
     let mapComponent = null;
+    let movingInfoComponent = null;
     if(!deviceErrorMessage){
       const fullName = deviceInfo.nickName !=="N/A"? deviceInfo.nickName: "نام و نام خانوادگی";
-      cardComponent =<Card fullName={fullName} 
+      cardComponent =<DeviceInfoCard fullName={fullName} 
                       imei={deviceInfo.imei} 
                       simNumber={deviceInfo.simNumber} 
                       date={date}
                       />
           if(!pointsErrorMessage){
+            movingInfoComponent =<MovingInfoCard speed={props.speed}
+                      time={Moment(props.time).format("HH:mm")}
+                      />
             const position = [points[0].lat, points[0].lng];
             mapComponent = <div className="TrackPlayer">
             <Map center={position} zoom={15} style={{
@@ -91,20 +98,19 @@ const TrackPlayer = (props)=>{
               <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              {/* <TrackPlayerContext.Consumer>
-      {(context) =>console.log(context)}
-      </TrackPlayerContext.Consumer> */}
             </Map>
           </div>
         
             }else{
               mapComponent = <ErrorPage errorMessage={pointsErrorMessage}/>
+              movingInfoComponent = null;
             }
         }else{
           cardComponent = <ErrorPage errorMessage={deviceErrorMessage}/>
         }
         return<React.Fragment>
           {cardComponent}
+          {movingInfoComponent}
           {mapComponent}
         </React.Fragment>
       }else {
@@ -118,4 +124,10 @@ const TrackPlayer = (props)=>{
       }
 }
 
-export default TrackPlayer;
+const mapStateToProps = state => {
+  return {
+    speed: state.speed,
+    time: state.time
+  };
+};
+export default connect(mapStateToProps)(TrackPlayer);

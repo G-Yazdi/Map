@@ -1,5 +1,5 @@
 import React from 'react';
 
-const trackPlayerContext = React.createContext({});
+const TrackPlayerContext = React.createContext();
 
-export default trackPlayerContext;
+export default TrackPlayerContext;

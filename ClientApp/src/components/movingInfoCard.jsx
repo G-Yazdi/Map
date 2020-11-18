@@ -16,9 +16,8 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
 });
-export default function OutlinedCard(props) {
+export default function MonitoringInfoCard(props) {
   const classes = useStyles();
-  console.log("propsssss", props)
 
   return (
     <Card className={classes.root} style={{
@@ -28,32 +27,24 @@ export default function OutlinedCard(props) {
         right: "16px",
         width: "196px",
         textAlign: "center",
-        marginTop: "74px",
+        marginTop: "282px",
         zIndex:"1"}} variant="outlined">
       <CardContent>
-        <Typography style={{fontFamily:"Vazir"}}  component="p">
-            {props.fullName}
-        </Typography>
+        <div>
+            <img src={require("../images/speed.png").default}  style={{height:"21px", display: "inline-block", marginLeft: "-8px",
+            marginRight: "5px"}}/> 
+            <Typography style={{fontFamily:"Vazir", display: "inline-block"}}  component="p">
+                {props.speed}
+            </Typography>
+        </div>
         <br/>
         <div>
-          <img src={require("../images/11.png").default}  style={{height:"21px", display: "inline-block", marginLeft: "-8px",
+        <img src={require("../images/time.png").default}  style={{height:"21px", display: "inline-block", marginLeft: "-8px",
             marginRight: "5px"}}/> 
           <Typography style={{fontFamily:"Vazir", display: "inline-block"}}  component="p">
-              {props.simNumber}
-          </Typography>
-          <br/>
-          <Typography style={{fontFamily:"Vazir", display: "inline-block", marginTop: "10px"}}  component="p">
-              {props.date}
+              {props.time}
           </Typography>
         </div>
-        
-        
-        <br/>
-      </CardContent>
-      <CardContent style={{backgroundColor: "rgba(148, 179, 239, 0.5)", paddingTop: "10px", height: "5px", marginTop: "-20px"}}>
-      <Typography style={{fontFamily:"Vazir"}}  component="p">
-          {props.imei}
-        </Typography>
       </CardContent>
     </Card>
   );
