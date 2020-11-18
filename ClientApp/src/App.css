@@ -125,3 +125,6 @@ body{
 .leaflet-popup-content p {
     margin: unset !important;
 }
+.MuiFormControlLabel-label{
+  font-family: 'Vazir' !important;
+}

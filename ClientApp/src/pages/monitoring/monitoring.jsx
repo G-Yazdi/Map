@@ -2,13 +2,21 @@ import React, {useEffect, useState, useRef} from "react";
 import userService from "../../services/userService";
 import Cluster from "./cluster";
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import CheckboxesGroup from '../../components/checkboxesGroup'
 
 const Monitoring = ()=>{
   
   const [isLoading, setIsLoading] = useState(true);
   const [customers, setCustomers] = useState([]);
   const [devices, setDevices] = useState([]);
+  const [visitors, setVisitors] = useState([]);
   const [ connection, setConnection ] = useState(null);
+  const [state, setState] = React.useState({
+  });
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
 
   const latestDivicesState = useRef(null);
 
@@ -16,7 +24,6 @@ const Monitoring = ()=>{
   
 
 useEffect(() => {
-  console.log("error2");
 
   async function fetchData() {
     await userService.getMonitoringMap().then(response => {
@@ -24,6 +31,7 @@ useEffect(() => {
       if (data !== null) {
         setCustomers(data.customers);
         setDevices(data.devices);
+        setVisitors(data.devices);
         setIsLoading(false);
         const newConnection = new HubConnectionBuilder().withUrl('http://10.10.1.34:4054/Hubs/RealTimeHub')
         .withAutomaticReconnect()
@@ -58,7 +66,6 @@ useEffect(() => {
   if (connection) {
       connection.start()
           .then(result => {
-              console.log('Connected!');
               connection.invoke("JoinToGroupAsync", "Golriz.Gps").catch(err => console.error("error",err));
               connection.on('NotifyAsync', handler);
           })
@@ -72,7 +79,10 @@ useEffect(() => {
 
   if(!isLoading){
     return (
-      <Cluster customers={customers} devices={devices}/>
+      <React.Fragment>
+        <CheckboxesGroup visitors={visitors} onCheck={handleChange}/>
+        <Cluster customers={customers} devices={devices}/>
+      </React.Fragment>
     );
   }
   return null;
