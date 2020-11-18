@@ -30,8 +30,6 @@ export default function Cluster(props) {
                 />
                 {devices.map(item => {
                     if (item.locationLatitude && item.locationLongitude) {
-                        console.log("date", new Date(item.locationTime));
-                        console.log("date1", new Date());
                         return <Marker key={item.deviceId} position={[item.locationLatitude, item.locationLongitude]} icon={iconVisitor}>
                             <Popup className="myLeaflet">
                                 <Typography align="center" style={{
