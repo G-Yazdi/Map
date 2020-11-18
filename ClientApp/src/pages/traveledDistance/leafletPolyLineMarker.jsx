@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Map, TileLayer, Polyline, Marker} from 'react-leaflet';
 import userService from "../../services/userService";
-import Card from "../../components/card";
+import Card from "../../components/deviceInfoCard";
 import {iconVisitor} from "../../components/icon";
 import ErrorPage from "../../components/errorPage";
 

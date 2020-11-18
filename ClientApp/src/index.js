@@ -5,16 +5,11 @@ import {BrowserRouter} from "react-router-dom";
 import './components/leaflet-react-track-player/src/index.css'
 import './components/leaflet/leaflet.css'; // sass
 import 'react-leaflet-markercluster/dist/styles.min.css';
+import {createStore} from "redux";
+import reducer from "./store/reducer";
+import {Provider} from "react-redux";
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <BrowserRouter><TrackPlayer /></BrowserRouter>
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import './index.css';
-// import App from './App';
 
-ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
+const store = createStore(reducer);
+
+ReactDOM.render(<BrowserRouter><Provider store={store}><App /></Provider></BrowserRouter>, document.getElementById('root'));

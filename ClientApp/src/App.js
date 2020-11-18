@@ -11,7 +11,6 @@ import Monitoring from './pages/monitoring/monitoring';
 import FabBackButton from './components/fabBackButton';
 import NotFound from './components/notFound';
 import TrackPlayer from './pages/browsedRoute/trackPlayer';
-import LeafletDriftMarker from './pages/browsedRoute/leafletDriftMarker';
 
 
 const getParamsOfLeafletDriftMarkerPath = pathname => {
@@ -131,8 +130,6 @@ class App extends Component {
                       onChange={this.handleChange} date={this.state.date}/>;
     }
 
-
-
     return <React.Fragment>
       <NavBar>
         {navComponent}
@@ -147,7 +144,7 @@ class App extends Component {
         <Redirect from="/" exact  to="/pointList"/>
         <Redirect to="/notFound"/>
       </Switch>
-  </React.Fragment>;
+    </React.Fragment>
   }
 }
 
