@@ -72,13 +72,6 @@ body{
     position: absolute;
     text-align: center;
     margin-bottom: 58px !important;
-  /* opacity: 1;
-    transform: translate3d(349px, 152px, 0px);
-    bottom: -7px;
-    left: -46px;
-    position: absolute;
-    text-align: center;
-    margin-bottom: 58px !important */
 }
 .myLeaflet{
   width: 190px !important;
@@ -98,7 +91,7 @@ body{
   width: 241px !important;
 }
 .leaflet-marker-icon{
-  margin-top: -38px !important
+  margin-top: -38px !important;
 }
 .monitoringButton{
   position: absolute !important;
@@ -127,4 +120,10 @@ body{
 }
 .MuiFormControlLabel-label{
   font-family: 'Vazir' !important;
+  font-size: 0.86rem !important;
+}
+
+.myIcon{
+  margin-left: -5px !important;
+    margin-top: -33px !important;
 }

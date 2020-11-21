@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     bottom: 0,
     
+    
   },
   formControl: {
     margin: '17px',
@@ -38,9 +39,8 @@ const CheckboxesGroup = ({state, visitors, onCheck})=> {
         <FormLabel component="legend" style={{fontFamily:'Vazir', lineHeight: '3',
     marginRight: '27px'}}>مشاهده مسیر طی شده</FormLabel>
         <FormGroup>
-        {console.log("checkboxGroup",state)}
             {visitors.map((visitor)=>{
-                return <FormControlLabel key={visitor.deviceId}
+                return <FormControlLabel key={visitor.deviceId} style={{fontSize: '0.86rem'}}
                 control={<MyCheckbox checked={state?.[visitor.deviceId]?.checked || false} 
                 onChange={onCheck} name={`${visitor.deviceId}`} color="primary" loading={state?.[visitor.deviceId]?.loading}/>}
                 label={visitor.deviceNickname==="N/A"? visitor.deviceIMEI:visitor.deviceNickname}

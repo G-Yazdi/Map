@@ -16,4 +16,14 @@ const iconMarket = new L.Icon({
     iconSize: new L.Point(38, 38)
 });
 
-export { iconVisitor, iconMarket };
+
+const iconFlag = new L.Icon({
+    iconUrl: require('../images/flag.png').default,
+    shadowUrl: null,
+    shadowSize: null,
+    shadowAnchor: null,
+    iconSize: new L.Point(38, 38),
+    className:"myIcon"
+});
+
+export { iconVisitor, iconMarket, iconFlag };

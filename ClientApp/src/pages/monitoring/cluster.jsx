@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { Map, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import Typography from '@material-ui/core/Typography';
-import { iconVisitor, iconMarket } from "../../components/icon";
+import { iconVisitor, iconMarket, iconFlag } from "../../components/icon";
 import Moment from "moment-jalali";
 import makePure from 'recompose/pure';
 import userService from "../../services/userService";
@@ -119,19 +119,25 @@ function Cluster(props) {
                         </Marker>)}
                 </MarkerClusterGroup>
                 {
-                Object.values(points)?.map((point)=>{
+                Object.values(points)?.map((point, index)=>{
                     if(point===""){
                         return;
                     }
-                    return point.data.map((item, index) => {
+                    return <React.Fragment key={index}>
+                        <Marker position={[point.data[0].lat, point.data[0].lng]} icon={iconFlag} style={{width:"100px"}}></Marker>
+                        {point.data.map((item, index) => {
                                                 let prevItem = index > 0 ? point.data[index - 1] : item;
                                                 return <Polyline key={index} positions={[
                                                         [prevItem.lat, prevItem.lng], [item.lat, item.lng],
                                                         ]} color={point.color} />
-                                            })})}
+                                            })}
+                    </React.Fragment>
+                    
+                                            
+                })}
             </Map>
 
         </React.Fragment>
     );
 }
-export default  makePure(Cluster);
+export default makePure(Cluster);
