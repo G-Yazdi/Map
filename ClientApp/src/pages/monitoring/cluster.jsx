@@ -6,15 +6,22 @@ import { iconVisitor, iconMarket, iconFlag } from "../../components/icon";
 import Moment from "moment-jalali";
 import makePure from 'recompose/pure';
 import userService from "../../services/userService";
-
+import Color from "../../components/utils/color";
 
 function Cluster(props) {
     const { customers, devices, checkedDevice, onReciveData, onNoData } = props;
 
     const[points, setPoints] = useState([]);
+    
     const selectColor = () =>{
-        const hue = (Math.floor(Math.random() * 10)) * 137.508; // use golden angle approximation
-        return `hsl(${hue},100%,50%)`;
+        let notSelected = Color.filter( item=>{
+            return item.selected === false
+          });
+          if(notSelected){
+            notSelected[0].selected = true;
+            return notSelected[0].value;
+          }
+          else return null;
       }
 
     useEffect(() => {
@@ -27,6 +34,8 @@ function Cluster(props) {
                 deviceId = array[0][0];
             }
             else{
+                let item = Color.find(item=>item.value === points[`${array[0][0]}`].color);
+                item.selected = false;
                 setPoints({...points, [`${array[0][0]}`]:''});
                 onReciveData(array[0][0]);
             }
