@@ -6,17 +6,24 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import MyCheckbox from "./myCheckbox";
 import makePure from 'recompose/pure';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     position: "absolute",
     right: 0,
-    top: "61px",
-    direction:'rtl'
+    direction:'rtl',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    height: '92.64%',
+    position: 'absolute',
+    bottom: 0,
+    
   },
   formControl: {
-    margin: theme.spacing(3)
+    margin: '17px',
+    marginRight: '0px',
+    marginLeft: '38px',
   },
 }));
 
@@ -25,15 +32,17 @@ const CheckboxesGroup = ({state, visitors, onCheck})=> {
   
 
   return (
-    <div className={classes.root} style={{outline: "dotted",
-        outlineColor: "gray"}}>
+    <div className={classes.root}>
+          
       <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend" style={{fontFamily:'Vazir'}}>مشاهده مسیر طی شده</FormLabel>
+        <FormLabel component="legend" style={{fontFamily:'Vazir', lineHeight: '3',
+    marginRight: '27px'}}>مشاهده مسیر طی شده</FormLabel>
         <FormGroup>
+        {console.log("checkboxGroup",state)}
             {visitors.map((visitor)=>{
                 return <FormControlLabel key={visitor.deviceId}
-                control={<MyCheckbox checked={state?.[`visitor${visitor.deviceId}`]} 
-                onChange={onCheck} name={`visitor${visitor.deviceId}`} color="primary"/>}
+                control={<MyCheckbox checked={state?.[visitor.deviceId]?.checked || false} 
+                onChange={onCheck} name={`${visitor.deviceId}`} color="primary" loading={state?.[visitor.deviceId]?.loading}/>}
                 label={visitor.deviceNickname==="N/A"? visitor.deviceIMEI:visitor.deviceNickname}
               />;
             })}

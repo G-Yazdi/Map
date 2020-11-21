@@ -1,12 +1,57 @@
-import React from "react";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import React, {useState, useEffect} from "react";
+import { Map, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import Typography from '@material-ui/core/Typography';
 import { iconVisitor, iconMarket } from "../../components/icon";
 import Moment from "moment-jalali";
+import makePure from 'recompose/pure';
+import userService from "../../services/userService";
 
-export default function Cluster(props) {
-    const { customers, devices } = props;
+
+function Cluster(props) {
+    const { customers, devices, checkedDevice, onReciveData, onNoData } = props;
+
+    const[points, setPoints] = useState([]);
+    const selectColor = () =>{
+        const hue = (Math.floor(Math.random() * 10)) * 137.508; // use golden angle approximation
+        return `hsl(${hue},100%,50%)`;
+      }
+
+    useEffect(() => {
+        const array = Object.entries(checkedDevice);
+        const date = new Date();
+        const time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getUTCDate());
+        let deviceId = null;
+        if(array[0]){
+            if(array[0][1]){
+                deviceId = array[0][0];
+            }
+            else{
+                setPoints({...points, [`${array[0][0]}`]:''});
+                onReciveData(array[0][0]);
+            }
+        }
+
+    async function fetchData() {
+      await userService.getBrowsedRoute(deviceId, time).then(response => {
+        const data = response.data;
+
+        if(data.browsedPoints !== null && data.browsedPoints.length > 0){
+            setPoints({...points, [`${deviceId}`]:{data:data.browsedPoints, color:selectColor()}});
+            onReciveData(deviceId);
+        }
+        else{
+            onNoData(deviceId);
+        }
+      })
+      .catch(error => {
+        console.log("error", error);
+      });
+    }
+    if(deviceId)
+        fetchData();
+  
+      }, [JSON.stringify(checkedDevice)]);
 
     return (
         <React.Fragment>
@@ -73,8 +118,20 @@ export default function Cluster(props) {
                             </Popup>
                         </Marker>)}
                 </MarkerClusterGroup>
+                {
+                Object.values(points)?.map((point)=>{
+                    if(point===""){
+                        return;
+                    }
+                    return point.data.map((item, index) => {
+                                                let prevItem = index > 0 ? point.data[index - 1] : item;
+                                                return <Polyline key={index} positions={[
+                                                        [prevItem.lat, prevItem.lng], [item.lat, item.lng],
+                                                        ]} color={point.color} />
+                                            })})}
             </Map>
 
         </React.Fragment>
     );
 }
+export default  makePure(Cluster);

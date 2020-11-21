@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import userService from "../../services/userService";
 import Cluster from "./cluster";
 import { HubConnectionBuilder } from '@microsoft/signalr';
-import CheckboxesGroup from '../../components/checkboxesGroup'
+import CheckboxesGroup from '../../components/checkboxesGroup';
 
 const Monitoring = ()=>{
   
@@ -11,13 +11,21 @@ const Monitoring = ()=>{
   const [devices, setDevices] = useState([]);
   const [visitors, setVisitors] = useState([]);
   const [ connection, setConnection ] = useState(null);
-  const [state, setState] = React.useState({
-  });
+  const [state, setState] = useState({});
+  const [checkedDevice, setCheckedDevice] = useState({}); 
 
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    setState({ ...state, [event.target.name]: {checked: event.target.checked, loading: true} });
+    setCheckedDevice({[event.target.name]: event.target.checked});
   };
 
+  const handleRecieve = (deviceId) => {
+    setState({ ...state, [`${deviceId}`]: {checked: state[`${deviceId}`].checked, loading: false} });
+  };
+
+  const handleNoData = (deviceId) => {
+    setState({ ...state, [`${deviceId}`]: {checked: false, loading: false} });
+  };
   const latestDivicesState = useRef(null);
 
   latestDivicesState.current = devices;
@@ -80,8 +88,8 @@ useEffect(() => {
   if(!isLoading){
     return (
       <React.Fragment>
-        <CheckboxesGroup visitors={visitors} onCheck={handleChange}/>
-        <Cluster customers={customers} devices={devices}/>
+        <CheckboxesGroup visitors={visitors} onCheck={handleChange} state={state}/>
+        <Cluster customers={customers} devices={devices} checkedDevice={checkedDevice} onReciveData={handleRecieve} onNoData={handleNoData}/>
       </React.Fragment>
     );
   }

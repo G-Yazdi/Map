@@ -58,7 +58,6 @@ const TrackPlayer = (props)=>{
     }
     fetchData();
   }, [JSON.stringify(props.match.params)]);
-
   
   if(!isLoading){
     if(serverErrorMessage){

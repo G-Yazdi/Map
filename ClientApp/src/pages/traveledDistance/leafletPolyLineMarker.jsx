@@ -25,6 +25,7 @@ const LeafletPolyLineMarker = (props)=>{
     setServerErrorMessage('');
 
     async function fetchData() {
+      console.log("date", paramDate)
       await userService.getBrowsedRoute(deviceId, paramDate).then(response => {
         const data = response.data;
         if (data && data.deviceInfo) {
