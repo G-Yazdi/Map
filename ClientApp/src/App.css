@@ -145,20 +145,43 @@ body{
   height: unset !important;
   width: unset !important;
 }
+@media (max-width: 768px) { 
+  .leaflet-control{
+    margin-right: -12px;
+  }
+}
+
+
+
 @media (max-width: 600.98px) { 
   .leaflet-container{
     top: 48px !important;
   }
-  .makeStyles-search-10{
-    width: unset !important;
+  .tp_button {
+    width: 14px !important;
+    height: 14px !important;
   }
-  .makeStyles-search-24{
-    width: unset !important;
+  .tp_buttons {
+    padding: 10px 6px !important;
+  }
+  .tp_track-line {
+    width: 54% !important;
+    float: right !important;
   }
   .makeStyles-title-3{
     display: unset !important;
   }
+  .leaflet-control{
+    width: 98% !important;
+    height: 35px !important;
+  }
+  .leaflet-bar{
+    width: unset !important;
+  }
  }
  .MuiTypography-h6 {
   font-size: 1rem !important;
+ }
+ .leaflet-control-attribution a{
+   display: none;
  }
