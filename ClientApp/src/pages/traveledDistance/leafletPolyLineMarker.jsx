@@ -77,7 +77,6 @@ const LeafletPolyLineMarker = (props)=>{
                       style={{
                         position: "absolute",
                         top: "65px",
-                        height:"92.64%",
                         width: "100%", zIndex:"0"}}
                       >
                       <TileLayer

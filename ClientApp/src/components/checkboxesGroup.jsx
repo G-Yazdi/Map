@@ -15,9 +15,10 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     direction:'rtl',
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
-    height: '92.64%',
     position: 'absolute',
     bottom: 0,
+    top: "46px",
+    overflow: "auto"
     
     
   },

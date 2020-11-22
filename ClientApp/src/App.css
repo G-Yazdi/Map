@@ -125,5 +125,40 @@ body{
 
 .myIcon{
   margin-left: -5px !important;
-    margin-top: -33px !important;
+  margin-top: -33px !important;
 }
+.notification:before {
+  right: 15px !important;
+  left: unset !important;
+}
+.row {
+  display: flex; /* equal height of the children */
+}
+
+.col {
+  flex: 1; /* additionally, equal width */
+  
+  padding: 1em;
+  border: solid;
+}
+.TrackPlayer{
+  height: unset !important;
+  width: unset !important;
+}
+@media (max-width: 600.98px) { 
+  .leaflet-container{
+    top: 48px !important;
+  }
+  .makeStyles-search-10{
+    width: unset !important;
+  }
+  .makeStyles-search-24{
+    width: unset !important;
+  }
+  .makeStyles-title-3{
+    display: unset !important;
+  }
+ }
+ .MuiTypography-h6 {
+  font-size: 1rem !important;
+ }

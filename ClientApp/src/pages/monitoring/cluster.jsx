@@ -70,7 +70,7 @@ function Cluster(props) {
                 zoom={10}
                 maxZoom={18}
                 style={{
-                    height: "92.64%",
+                    height: "93.64%",
                     position: "absolute",
                     bottom: 0,
                     width: "100%",

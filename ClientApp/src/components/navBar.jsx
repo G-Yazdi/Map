@@ -85,7 +85,7 @@ export default function NavBar(props) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" style={{position:"fixed", top:"0", height: "7.36%"}}>
+      <AppBar position="static" style={{position:"fixed", top:"0"}}>
         <Toolbar>
         <img src={require("../images/logo.png").default} alt="logo" style={{height:"32px"}} />
           <Typography className={classes.title} style={{marginLeft: "10px"}} variant="h6" noWrap>
