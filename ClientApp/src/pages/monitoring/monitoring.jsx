@@ -3,6 +3,7 @@ import userService from "../../services/userService";
 import Cluster from "./cluster";
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import CheckboxesGroup from '../../components/checkboxesGroup';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 const Monitoring = ()=>{
   
@@ -25,6 +26,8 @@ const Monitoring = ()=>{
 
   const handleNoData = (deviceId) => {
     setState({ ...state, [`${deviceId}`]: {checked: false, loading: false} });
+    //notification
+    NotificationManager.warning('اطلاعات مورد نظر یافت نشد', '', 3000);
   };
   const latestDivicesState = useRef(null);
 
@@ -90,6 +93,7 @@ useEffect(() => {
       <React.Fragment>
         <CheckboxesGroup visitors={visitors} onCheck={handleChange} state={state}/>
         <Cluster customers={customers} devices={devices} checkedDevice={checkedDevice} onReciveData={handleRecieve} onNoData={handleNoData}/>
+        <NotificationContainer/>
       </React.Fragment>
     );
   }

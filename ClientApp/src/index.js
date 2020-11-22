@@ -8,6 +8,7 @@ import 'react-leaflet-markercluster/dist/styles.min.css';
 import {createStore} from "redux";
 import reducer from "./store/reducer";
 import {Provider} from "react-redux";
+import 'react-notifications/lib/notifications.css';
 
 
 const store = createStore(reducer);

@@ -6,7 +6,6 @@ const Color= [
 {value:"brown", selected:false},
 {value:"green", selected:false},
 {value:"red", selected:false},
-{value:"pink", selected:false},
 {value:"gold", selected:false},
 {value:"cyan", selected:false},
 {value:"darkblue", selected:false},

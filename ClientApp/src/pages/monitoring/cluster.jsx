@@ -60,7 +60,7 @@ function Cluster(props) {
     if(deviceId)
         fetchData();
   
-      }, [JSON.stringify(checkedDevice)]);
+      }, [checkedDevice]);
 
     return (
         <React.Fragment>
