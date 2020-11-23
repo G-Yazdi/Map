@@ -11,6 +11,8 @@ import Monitoring from './pages/monitoring/monitoring';
 import FabBackButton from './components/fabBackButton';
 import NotFound from './components/notFound';
 import TrackPlayer from './pages/browsedRoute/trackPlayer';
+import ProtectedRoute from './components/utils/protectedRoute';
+import LoginMiddleware from "./components/utils/loginMiddleware";
 
 
 const getParamsOfLeafletDriftMarkerPath = pathname => {
@@ -112,6 +114,10 @@ class App extends Component {
   handleBackToList = () => {
     this.props.history.replace("/");
   };
+  handleExit = ()=>{
+    localStorage.removeItem("token");
+    this.props.history.replace("/login");
+  }
   render(){
     const path = this.props.location.pathname;
 
@@ -131,17 +137,24 @@ class App extends Component {
     }
 
     return <React.Fragment>
-      <NavBar>
+      <NavBar onClick={this.handleExit}>
         {navComponent}
       </NavBar>
       {backButton}
       <Switch>
-        <Route path="/pointList/:deviceId/browsedRoute/:date" exact component={TrackPlayer}/>
-        <Route path="/pointList/:deviceId/traveledDistance/:date" exact component={LeafletPolyLineMarker}/>
-        <Route path="/monitoring" exact component={Monitoring}/>
-        <Route path="/pointList" exact component={PointList}/>
+        <ProtectedRoute exact path="/pointList/:deviceId/browsedRoute/:date" component={TrackPlayer}/>
+        <ProtectedRoute exact path="/pointList/:deviceId/traveledDistance/:date" component={LeafletPolyLineMarker}/>
+        <ProtectedRoute exact path="/monitoring" component={Monitoring}/>
+        <Route path="/loginMiddleware" exact component={LoginMiddleware}/>
+        <ProtectedRoute path="/pointList" exact component={PointList}/>
         <Route path="/notFound" exact component={NotFound}/>
         <Redirect from="/" exact  to="/pointList"/>
+        <Route path='/login' component={() =>
+            {
+                window.location.href = 'http://login.dm1.com/login?platform=1&returnurl=http://localhost:51901/loginMiddleware';
+                return null;
+            }
+            } />
         <Redirect to="/notFound"/>
       </Switch>
     </React.Fragment>

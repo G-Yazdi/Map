@@ -14,8 +14,6 @@ export default function TextButtons() {
 const classes = useStyles();
 
 return (
-<div className="monitoringButton">
-<Button>مانیتورینگ آنلاین ویزیتورها</Button>
-</div>
+<Button className="monitoringButton">مانیتورینگ آنلاین ویزیتورها</Button>
 );
 }

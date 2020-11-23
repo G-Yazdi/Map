@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import FormLabel from '@material-ui/core/FormLabel';
+
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -37,8 +37,7 @@ const CheckboxesGroup = ({state, visitors, onCheck})=> {
     <div className={classes.root}>
           
       <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend" style={{fontFamily:'Vazir', lineHeight: '3',
-    marginRight: '27px'}}>مشاهده مسیر طی شده</FormLabel>
+        
         <FormGroup>
             {visitors.map((visitor)=>{
                 return <FormControlLabel key={visitor.deviceId} style={{fontSize: '0.86rem'}}

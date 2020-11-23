@@ -4,6 +4,7 @@ import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/core/styles";
 import userService from "../../services/userService";
 import PointInMultipleMode from "./pointInMultipleMode";
+import queryString from 'query-string';
 
 const useStyles = (theme) => ({
   cardGrid: {
@@ -13,6 +14,10 @@ const useStyles = (theme) => ({
 });
 
 class PointList extends Component {
+    constructor(props) {
+        super(props);
+
+    }
     state = {
         isLoading: false,
         points: [],
@@ -23,6 +28,7 @@ class PointList extends Component {
   };
 
   componentDidMount() {
+    
       
         userService.getLastLocations().then(response => {
             const points = response.data;
@@ -58,7 +64,7 @@ class PointList extends Component {
         this.setState({ point: null, singleMode: false, polyLineData: [],  polyLineMode: false, isMounted: false});
   };
   render() {
-      const { classes } = this.props;
+    const { classes } = this.props;
       if (!this.state.isLoading) {
               return (
                 <React.Fragment>
@@ -93,5 +99,6 @@ class PointList extends Component {
     
   }
 }
+
 
 export default withStyles(useStyles)(PointList);

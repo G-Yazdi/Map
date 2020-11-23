@@ -95,13 +95,21 @@ body{
 }
 .monitoringButton{
   position: absolute !important;
-  right: 15px !important;
-  color: white !important;
-}
-.monitoringButton button{
   color: white !important;
   font-family: 'Vazir' !important;
   font-size: 16px;
+  right: 56px;
+  top: 14px;
+}
+.exitButton{
+  position: absolute;
+  right: 23px;
+  cursor: pointer;
+  top: 20px
+
+}
+.exitDiv :hover{
+  background-color: rgba(255, 255, 255, 0.04) !important;
 }
 .leaflet-bottom{
   left: unset !important;
@@ -184,4 +192,11 @@ body{
  }
  .leaflet-control-attribution a{
    display: none;
+ }
+ .MuiIconButton-colorInherit{
+   color: white !important;
+ }
+
+ .message{
+   font-family: 'Vazir' !important;
  }

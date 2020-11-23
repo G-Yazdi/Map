@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: "absolute",
     right: 0,
-    bottom: "14px",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
@@ -58,7 +57,7 @@ export default function SearchInput(props) {
   return (
     
     <div className={classes.grow}>
-          <div className={classes.search} style={{display: "flex"}}>
+          <div className={classes.search} style={{display: "flex", marginRight: '57px', marginTop: "-13px"}}>
             <DatePicker calendarStyles={ {
               calendarContainer: "calendarContainer",
               dayPickerContainer: "dayPickerContainer",

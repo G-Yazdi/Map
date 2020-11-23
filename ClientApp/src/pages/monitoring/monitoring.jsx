@@ -2,8 +2,8 @@ import React, {useEffect, useState, useRef} from "react";
 import userService from "../../services/userService";
 import Cluster from "./cluster";
 import { HubConnectionBuilder } from '@microsoft/signalr';
-import CheckboxesGroup from '../../components/checkboxesGroup';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
+import MyDrawer from './../../components/utils/drawer';
 
 const Monitoring = ()=>{
   
@@ -91,7 +91,7 @@ useEffect(() => {
   if(!isLoading){
     return (
       <React.Fragment>
-        <CheckboxesGroup visitors={visitors} onCheck={handleChange} state={state}/>
+        <MyDrawer visitors={visitors} onCheck={handleChange} state={state}/>
         <Cluster customers={customers} devices={devices} checkedDevice={checkedDevice} onReciveData={handleRecieve} onNoData={handleNoData}/>
         <NotificationContainer/>
       </React.Fragment>

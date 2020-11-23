@@ -2,7 +2,6 @@ const initialState = {
     speed: 0,
     time: ''
 }
-
 const reducer = (state = initialState, action) =>{
     if(action.type === 'SPEEDCHANGE'){
         
