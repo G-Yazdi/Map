@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import queryString from 'query-string';
 import {Redirect } from "react-router-dom";
+import auth from "../../services/authService";
 
 
 class LoginMiddleware extends Component {
@@ -10,16 +11,15 @@ class LoginMiddleware extends Component {
             isLoading:true
         }
     }
-    setItem = (key, value) =>{
-        return Promise.resolve().then(()=> {
-            localStorage.setItem(key, value);
-        });
-    }
 
-    componentDidMount(){
-        this.setItem("token", queryString.parse(this.props.location.search).token).then(()=>{
-            this.setState({isLoading:false})
-        });
+    async componentDidMount(){
+        try{
+            await auth.login(queryString.parse(this.props.location.search).token);
+            this.setState({isLoading:false});
+        }
+        catch(error){
+            console.log("error:", error);
+        }
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./TrackPlayer.css";
 import LeafletReactTrackPlayer from "../../components/leaflet-react-track-player";
-import userService from "../../services/userService";
+import mapService from "../../services/mapService";
 import { Map, TileLayer } from "react-leaflet";
 import DeviceInfoCard from "../../components/deviceInfoCard";
 import MovingInfoCard from "../../components/movingInfoCard";
@@ -18,7 +18,6 @@ const TrackPlayer = (props)=>{
   const [pointsErrorMessage, setPointsErrorMessage]=useState('');
   const [deviceErrorMessage, setDeviceErrorMessage]=useState('');
   const [serverErrorMessage, setServerErrorMessage]=useState('');
-  const[speed, setSpeed]= useState(0);
 
   useEffect(() => {
     const {date:paramDate, deviceId} = props.match.params;
@@ -29,7 +28,7 @@ const TrackPlayer = (props)=>{
     setServerErrorMessage('');
     
     async function fetchData() {
-      await userService.getBrowsedRoute(deviceId, paramDate).then(response => {
+      await mapService.getBrowsedRoute(deviceId, paramDate).then(response => {
         const data = response.data;
         if (data && data.deviceInfo) {
           setDeviceInfo(data.deviceInfo);

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from "react";
-import userService from "../../services/userService";
+import userService from "../../services/mapService";
 import Cluster from "./cluster";
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import {NotificationContainer, NotificationManager} from 'react-notifications';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Map, TileLayer, Polyline, Marker} from 'react-leaflet';
-import userService from "../../services/userService";
+import mapService from "../../services/mapService";
 import Card from "../../components/deviceInfoCard";
 import {iconVisitor} from "../../components/icon";
 import ErrorPage from "../../components/errorPage";
@@ -25,8 +25,7 @@ const LeafletPolyLineMarker = (props)=>{
     setServerErrorMessage('');
 
     async function fetchData() {
-      console.log("date", paramDate)
-      await userService.getBrowsedRoute(deviceId, paramDate).then(response => {
+      await mapService.getBrowsedRoute(deviceId, paramDate).then(response => {
         const data = response.data;
         if (data && data.deviceInfo) {
           setDeviceInfo(data.deviceInfo);

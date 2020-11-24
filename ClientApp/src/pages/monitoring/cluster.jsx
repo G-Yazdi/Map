@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { iconVisitor, iconMarket, iconFlag } from "../../components/icon";
 import Moment from "moment-jalali";
 import makePure from 'recompose/pure';
-import userService from "../../services/userService";
+import userService from "../../services/mapService";
 import Color from "../../components/utils/color";
 
 function Cluster(props) {

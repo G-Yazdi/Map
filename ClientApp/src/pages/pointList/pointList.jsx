@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import { withStyles } from "@material-ui/core/styles";
-import userService from "../../services/userService";
+import mapService from "../../services/mapService";
 import PointInMultipleMode from "./pointInMultipleMode";
-import queryString from 'query-string';
 
 const useStyles = (theme) => ({
   cardGrid: {
@@ -28,9 +27,7 @@ class PointList extends Component {
   };
 
   componentDidMount() {
-    
-      
-        userService.getLastLocations().then(response => {
+        mapService.getLastLocations().then(response => {
             const points = response.data;
 
             if (points !== null) {

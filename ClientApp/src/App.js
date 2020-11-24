@@ -13,6 +13,8 @@ import NotFound from './components/notFound';
 import TrackPlayer from './pages/browsedRoute/trackPlayer';
 import ProtectedRoute from './components/utils/protectedRoute';
 import LoginMiddleware from "./components/utils/loginMiddleware";
+import hostService from "./services/hostService";
+import auth from "./services/authService";
 
 
 const getParamsOfLeafletDriftMarkerPath = pathname => {
@@ -36,7 +38,9 @@ class App extends Component {
     this.state ={
       date:new Moment(),
       deviceId:'',
-      showSearchInput: true
+      showSearchInput: true,
+      isLoading: true,
+      hostAddress:''
     }
   }
 
@@ -57,6 +61,19 @@ class App extends Component {
       if(this._isMounted)
         this.setState({date: new Moment(formateDate), deviceId});  
     }
+
+    hostService.getHostAddress().then(response => {
+      const address = response.data;
+
+      if (address !== null) {
+          this.setState({ hostAddress: address, isLoading: false });
+      } else {
+          this.setState({ isLoading: true });
+      }
+  })
+  .catch(error => {
+      console.log("error", error);
+  });
      
   }
 
@@ -114,9 +131,14 @@ class App extends Component {
   handleBackToList = () => {
     this.props.history.replace("/");
   };
-  handleExit = ()=>{
-    localStorage.removeItem("token");
-    this.props.history.replace("/login");
+  handleExit = async ()=>{
+    try{
+      await auth.logout();
+      this.props.history.replace("/login");
+    }
+    catch(error){
+      console.log("error", error);
+    }
   }
   render(){
     const path = this.props.location.pathname;
@@ -136,7 +158,8 @@ class App extends Component {
                       onChange={this.handleChange} date={this.state.date}/>;
     }
 
-    return <React.Fragment>
+    if(!this.state.isLoading){
+      return <React.Fragment>
       <NavBar onClick={this.handleExit}>
         {navComponent}
       </NavBar>
@@ -151,14 +174,20 @@ class App extends Component {
         <Redirect from="/" exact  to="/pointList"/>
         <Route path='/login' component={() =>
             {
-                window.location.href = `http://login.dm1.com/login?platform=1&returnurl=http://${window.location.host}/loginMiddleware`;
+                window.location.href = `http://login.dm1.com/login?platform=1&returnurl=http://${this.state.hostAddress}/loginMiddleware`;
                 return null;
             }
             } />
         <Redirect to="/notFound"/>
       </Switch>
     </React.Fragment>
-  }
+  
+    }
+    else{
+      return null;
+    }
+
+    }
 }
 
 export default withRouter(App);;

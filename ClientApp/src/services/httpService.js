@@ -12,7 +12,9 @@ axios.interceptors.response.use(null, error => {
 
     return Promise.reject(error);
 });
-
+function setJwt(jwt) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
+  }
 axios.defaults.baseURL = "/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.put["Content-Type"] = "application/json";
@@ -21,5 +23,6 @@ export default {
     get: axios.get,
     post: axios.post,
     put: axios.put,
-    delete: axios.delete
+    delete: axios.delete,
+    setJwy
 };

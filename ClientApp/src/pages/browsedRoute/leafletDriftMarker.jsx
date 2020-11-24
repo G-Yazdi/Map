@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState, useRef } from 'react';
 import { Map, TileLayer, Polyline, Popup} from 'react-leaflet';
 import { DriftMarker } from "leaflet-drift-marker";
-import userService from "../../services/userService";
+import mapService from "../../services/mapService";
 import Typography from "@material-ui/core/Typography";
 import Card from "../../components/card";
 import Moment from "moment";
@@ -33,7 +33,7 @@ import {iconVisitor} from "../../components/icon";
 //       console.log("driftcomponentDidMount1")
 //       this._isMounted = true;
 //       const {date, deviceId} = this.props.match.params;
-//       await userService.getBrowsedRoute(deviceId, date).then(response => {
+//       await mapService.getBrowsedRoute(deviceId, date).then(response => {
 //           const data = response.data;
           
 //           if (data && data.deviceInfo) {
@@ -80,7 +80,7 @@ import {iconVisitor} from "../../components/icon";
 //           const {date, deviceId} = this.props.match.params;
 //           this.setState({isLoading: true});
 //           this.setState({pointsErrorMessage: '', deviceErrorMessage: '', serverErrorMessage: '', points:''});
-//           await userService.getBrowsedRoute(deviceId, date).then(response => {
+//           await mapService.getBrowsedRoute(deviceId, date).then(response => {
 //               const data = response.data;
 //               console.log("[drift] componentDidUpdate2")
 //               if (data  && data.deviceInfo ) {
@@ -267,7 +267,7 @@ const LeafletDriftMarker = (props)=>{
     setServerErrorMessage('');
 
     async function fetchData() {
-      await userService.getBrowsedRoute(deviceId, paramDate)
+      await mapService.getBrowsedRoute(deviceId, paramDate)
       .then(response => {
         const data = response.data;
         if (data && data.deviceInfo) {
