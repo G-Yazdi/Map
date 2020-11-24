@@ -151,7 +151,7 @@ class App extends Component {
         <Redirect from="/" exact  to="/pointList"/>
         <Route path='/login' component={() =>
             {
-                window.location.href = 'http://login.dm1.com/login?platform=1&returnurl=http://localhost:51901/loginMiddleware';
+                window.location.href = `http://login.dm1.com/login?platform=1&returnurl=http://${window.location.host}/loginMiddleware`;
                 return null;
             }
             } />

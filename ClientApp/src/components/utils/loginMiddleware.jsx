@@ -23,7 +23,6 @@ class LoginMiddleware extends Component {
     }
 
     render() {
-        console.log("loading", this.state.isLoading)
         if(!this.state.isLoading)
             return <Redirect to="/pointList" />
         else return null;
